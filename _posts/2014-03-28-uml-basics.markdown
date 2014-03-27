@@ -27,7 +27,7 @@ visibility name: type multiplicity = default {property-string}
 
 ## Basic OOP Stuff
 
-### Verwerbung
+### Vererbung
 
 ![](http://yuml.me/diagram/scruffy;/class/[Car]^-[MonsterTruck])
 
@@ -42,7 +42,7 @@ Demnach geht der Pfeil vom Erben aus. Hierbei handelt es sich um einen "geöffne
 
 Dies zeigt die Klasse Car die das Interface driveAble implementiert. Die Klasse MonsterTruck erbt von Car.
 
-Bei Klassen kann das entsprechende Interface auch direkt mit angegeben. werden
+Bei Klassen kann das entsprechende Interface auch direkt mit angegeben werden.
 
 ![](http://yuml.me/diagram/scruffy;/class/[<<driveAble>>;Car])
 
@@ -76,7 +76,7 @@ Dies wird jedoch so selten verwendet, dass yuml.me das Tool welches ich zum zeic
 
 ### Bidirectional
 
-Es ist durchaus möglich, dass ein Bidirektionalen Graphen modelieren möchte,
+Es ist durchaus möglich, dass ein bidirektionalen Graphen modelieren möchte,
 In diesem Fall kann man von der Adresse auf den entsprechenden Customer und von dem Customer auf die Adresse schließen.
 Idr. sollte man dies jedoch versuchuchen zu vermeiden.
 
@@ -166,7 +166,7 @@ Dies schließt jedoch explizit nicht aus, dass ein Mitglied in mehreren Vereinen
 ![](http://yuml.me/diagram/scruffy;/class/[Rugby_Verein]<>-200..*[Mitgield],[Fußball_Verein]<>-100..*[Mitgield])
 
 Es ist möglich, dass ein Mitgield in beiden Bereienen ist.
-Den Rudby-Verein zeichnet aus, dass er mind. aus 200 Mitgliedern besteht, den Fußball-Verein, dass dieser mind 100 Mitglieder aufnimmt.
+Den Rugby-Verein zeichnet aus, dass er mind. aus 200 Mitgliedern besteht, den Fußball-Verein, dass dieser mind 100 Mitglieder aufnimmt.
 Um beide Vereine zu implementieren müssten also wenigstens 200 Mitglieder vorhanden sein,
 jedes Mitglied im Fußball-Verein müsste bei 200 Mitgliedern auch im Fußball-Verein sein.
 
