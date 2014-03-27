@@ -1,0 +1,55 @@
+---
+layout: default
+---
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <div>
+
+        <h1>
+            {{ page.title }},
+
+            {% if page.date %}
+            <time pubdate="pubdate" datetime="{{ page.date | date_to_xmlschema }}">
+                <meta itemprop="datePublished" content="{{ page.date | date_to_xmlschema }}" />
+                {{ page.date | date_to_long_string }}
+            </time>
+            {% endif %}
+        </h1>
+    </div>
+
+    <div class="post-body" itemprop="articleBody">
+        {{ content }}
+    </div>
+
+</article>
+
+
+<section class="comments" id="disqus_thread"></section>
+<script type="text/javascript">
+    var disqus_shortname = 'timglabischgithubcom';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+<section class="related-posts">
+    <h2 class="title">Related Posts</h2>
+    <ul class="posts" itemscope itemtype="http://schema.org/Blog">
+        {% for related in site.posts %}
+        {% if related.url != page.url and related.link == null and (void == null or void != '2') %}
+        <li itemscope itemtype="http://schema.org/BlogPosting">
+            <time datetime="{{ related.date | date_to_xmlschema }}">
+                <meta itemprop="datePublished" content="{{ related.date | date_to_xmlschema }}" />
+                {{ related.date | date: '%d.%m' }}
+            </time>
+            <a itemprop="name" href="{{ related.url }}" class="link">{{ related.title }}</a>
+        </li>
+        {% capture void %}{% increment related_shown %}{% endcapture %}
+        {% endif %}
+        {% endfor %}
+    </ul>
+</section>

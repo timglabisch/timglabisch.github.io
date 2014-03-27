@@ -1,0 +1,11 @@
+---
+layout: post
+location: Düsseldorf
+tags: [ ]
+title: "Hello World"
+---
+
+# Hello Blog
+
+some days ago i decided that i really need to start to blog.
+For now i have a bit holiday and can spend some time doing research stuff around the web stack.

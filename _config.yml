@@ -1,0 +1,15 @@
+safe:      true
+permalink: pretty
+pygments:  true
+markdown:  redcarpet
+exclude:   [ README.md, Gemfile ]
+
+site:
+    title:  Tim Glabisch
+    author: Tim Glabisch
+    email:  timglabisch_github_com@tim.ainfach.de
+    url:    http://timglabisch@github.com
+
+my_github:   http://www.github.com/timglabisch
+my_twitter:  http://www.twitter.com/timglabisch
+my_xing:  https://www.xing.com/profile/Tim_Glabisch
