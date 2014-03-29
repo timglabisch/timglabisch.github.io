@@ -202,6 +202,8 @@ Lets modify the helper class.
 
 ```php
 
+    <?php
+
     namespace Tg\DemoStreamBundle\Helper;
 
     class FlushHelper {
