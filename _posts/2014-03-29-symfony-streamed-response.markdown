@@ -4,8 +4,6 @@ tags: [ http flush stream symfony ]
 title: "Streaming Http Content using Symfony2"
 ---
 
-# Streaming Http Content using Symfony2
-
 the http standard allows you to flush data as often as you can.
 this allows you for example to stream a huge file to the user.
 
@@ -67,7 +65,7 @@ StreamedResponse takes a lambda that can produce any kind of output. like stream
 
         });
     }
-```php
+```
 
 this is a quite complex example, you can play with this demo later on.
 i wrote a small helper, for now just think about echo if you see $helper->out.
