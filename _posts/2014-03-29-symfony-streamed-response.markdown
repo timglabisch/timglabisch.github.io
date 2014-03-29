@@ -46,6 +46,8 @@ StreamedResponse takes a lambda that can produce any kind of output. like stream
 
 ```php
 
+    <?php
+
     /**
      * @Route("/streamDemo")
      */
@@ -78,6 +80,8 @@ is blocked by the heavy sleep task.
 lets take a look at the helpers out method.
 
 ```php
+
+    <?php
 
     class FlushHelper {
 
