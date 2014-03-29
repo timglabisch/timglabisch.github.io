@@ -22,14 +22,14 @@ i never met a framework in the php world that's developed with the idea of strea
 i can't really understand why, but most frameworks want you to prepare a response and if everything is done the framework
 finally flush the response.
 
-in the wild, this idea just sucks. why should a client wait for the footer to display the header or the content.
+in the wild, this idea just sucks. why should a client wait for the footer to display the header or the content?
 
 ## its not just about paining
 think about external resources like css styles. without loading the styles it's not possible to render a website.
 loading styles depends on network, network is io, io is slow.
-wouldn't it awesome if you could flush the head as fast as possible to allow the browser fetching external resources?
+wouldn't it be awesome if you could flush the head as fast as possible to allow the browser fetching external resources?
 
-i hope you got the idea, now lets get a bit into the techical implementation using Symfony2.
+i hope you got the idea, now lets get a bit into the technical implementation using Symfony2.
 
 ## Example using Symfony2
 
