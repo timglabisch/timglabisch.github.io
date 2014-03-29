@@ -45,6 +45,7 @@ but it's also possible to return an instance of the class StreamedResponse.
 StreamedResponse takes a lambda that can produce any kind of output. like streaming a file, a video or html :).
 
 ```php
+
     /**
      * @Route("/streamDemo")
      */
@@ -65,6 +66,7 @@ StreamedResponse takes a lambda that can produce any kind of output. like stream
 
         });
     }
+
 ```
 
 this is a quite complex example, you can play with this demo later on.
@@ -98,6 +100,7 @@ lets take a look at the helpers out method.
             flush();
         }
     }
+
 ```
 
 here i am fighting against the webserver. yeah, it sucks.
@@ -122,6 +125,8 @@ another great thing is that you can prioritize the content.
 think about hhvm's async features, would be cool to load all widgets in parallel and flush them as they are ready? :)
 
 So lets create a grid we want to push:
+
+```php
 
     <!DOCTYPE html>
     <html>
@@ -185,12 +190,14 @@ So lets create a grid we want to push:
         <div class="col-md-6"><span id="_18">...</span></div>
         <div class="col-md-6"><span id="_19">...</span></div>
     </div>
+
 ```
 
 now we have a bunch of id's which we can provide content for.
 Lets modify the helper class.
 
 ```php
+
     namespace Tg\DemoStreamBundle\Helper;
 
     class FlushHelper {
@@ -204,6 +211,7 @@ Lets modify the helper class.
             return $this->out($out);
         }
     }
+
 ```
 
 now we can start to use the placeholder in our controller.
@@ -274,7 +282,7 @@ now we can start to use the placeholder in our controller.
 
     }
 
-````
+```
 
 if you want to play with this code, on my github page is a demo bundle
 http://github.com/timglabisch/SymfonyDemoStreamBundle
