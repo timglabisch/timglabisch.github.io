@@ -185,7 +185,7 @@ So lets create a grid we want to push:
         <div class="col-md-6"><span id="_18">...</span></div>
         <div class="col-md-6"><span id="_19">...</span></div>
     </div>
-``
+```
 
 now we have a bunch of id's which we can provide content for.
 Lets modify the helper class.
