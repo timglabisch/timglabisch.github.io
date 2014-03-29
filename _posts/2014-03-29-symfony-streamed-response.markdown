@@ -204,7 +204,7 @@ Lets modify the helper class.
             return $this->out($out);
         }
     }
-``
+```
 
 now we can start to use the placeholder in our controller.
 
@@ -274,7 +274,7 @@ now we can start to use the placeholder in our controller.
 
     }
 
-```
+````
 
 if you want to play with this code, on my github page is a demo bundle
 http://github.com/timglabisch/SymfonyDemoStreamBundle
