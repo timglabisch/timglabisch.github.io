@@ -1,0 +1,3 @@
+[submodule "slides_coffeescript"]
+	path = slides_coffeescript
+	url = https://github.com/timglabisch/slides_coffeescript.git
