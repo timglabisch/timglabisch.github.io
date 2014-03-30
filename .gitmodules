@@ -1,3 +1,6 @@
 [submodule "slides_coffeescript"]
 	path = slides_coffeescript
 	url = https://github.com/timglabisch/slides_coffeescript.git
+[submodule "slides_elasticsearch"]
+	path = slides_elasticsearch
+	url = https://github.com/timglabisch/slides_elasticsearch.git
