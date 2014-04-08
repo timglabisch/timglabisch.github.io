@@ -31,6 +31,7 @@ for example one service layer for application services, one layer for domain ser
 the problem with the product class is that it knows about the infrastructure and your domain.
 so it's not just about doing to much, it's also about breaking software layers at the heart of any application.
 
+
 ## respository pattern
 thanks to tools like doctrine the php community stared to use the repository pattern.
 
@@ -55,7 +56,19 @@ so much (may useless) functions. if you really need inherit from the doctrine ba
 an application specific interface for your repository and use the interface in your application.
 later on you could refactor and just provide an repository with just the needed api.
 
+using repositories is the best practice if you write an application based on a crud model.
+building models the crud way shouldn't be a technical decision.
+there are applications that are very data driven.
+some people call this approach "anemic model". most of them share the opinion that this is an antipattern.
+from my point of view this isn't correct, it just depends on your application.
+in the wild you'll find application that are just dealing with raw data.
+just make sure that your application's domain is editing raw data - than the repository pattern and the
+anemic (anti-)pattern suits well for your application.
+
+
 ### ddd
+
+
 
 ## event sourcing
 
