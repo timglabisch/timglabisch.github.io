@@ -44,7 +44,7 @@ the table gateway is an oop representation of an table. Consider you have a prod
     $p = new poduct;
     $p->setName('foo')
     $productTable->insert($p);
-``
+```
 
 the product represents one row in the products table.
 the table gateway provide low level access to the database.
