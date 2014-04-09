@@ -48,7 +48,7 @@ the table gateway is an oop representation of an table. Consider you have a prod
 
 the product represents one row in the products table.
 the table gateway provide low level access to the database.
-the important thing is that it doesn't care about your domain, it's just an service in the infrastructure layer
+the important thing is that it doesn't care about your domain, it's just a service in the infrastructure layer
 to provide access to the database.
 there is nothing wrong with a table gateway, for exampe a repository could use an table gateway for low level access to the database.
 
@@ -85,11 +85,14 @@ in the wild you'll find application that are just dealing with raw data.
 just make sure that your application's domain is editing raw data - than the repository pattern and the
 anemic (anti-)pattern suits well for your application.
 
+### patterns for quering repositories
+later on i will write a dedicated blogpost about how to query data from a repository.
+if you're interesting in great solutions looke at the criteria or specification pattern.
 
 ## bit more domain driven design
 most of us try to build great software. writing great software is just about 2 things.
 referring decisions and build a a software that suits it's domain.
-it would be naughty to think that you can use software that fit's someones domain based on crud.
+it would be naughty to think that you can devlop software that fit's someones domain based on crud.
 there a a bunch of books about domain driven design, i am not going to talk about details.
 ddd is about thinking your domain and model the software for your domain.
 writing great software requires that the developers are knowing about the problems they are solving,
@@ -137,7 +140,8 @@ event sourcing is more about how to persist your entities.
 instead of just persisting the state of an entity using event sourcing you store every event that changes the entity.
 to restore a state of an entity you can compute all state changes against the entity.
 providing a logbook about all changes will allows you to reinterprete data later on.
-performance can be accomplish using patterns like CQRS or taking snapshots an Eventstore is an append only datastore.
+performance can be accomplish using patterns like CQRS or taking snapshots.
+an Eventstore is an append only datastore.
 think kind of datastores can be infinitely cached.
 quite intersting about event sourcing is that the only suitable solution for persisting such a logbook
 is using serializing mechanisms. the database structure will be simple, but i am not a big fan of serialized data in
@@ -185,7 +189,7 @@ Events happened in the past, so name them in the past tense.
 execute these events if the repository saves the changes to your entity.
 
 ## Commands
-instead of using a repository to just just changes for an entity you can also procide a Handler for specific Commands.
+instead of using a repository to trigger changes for an entity you can also provide a handler for specific commands.
 for example the ui could create a deleteProduct command, the ProductCommandHelper can process this command by using the repository.
 
 commands are imperative and can be send within bounded context. events are in the past tense and just notified that something had happen.
