@@ -18,7 +18,7 @@ lets look at the description of the HttpKernel
 
 ```
 The HttpKernel component provides a structured process for converting a Request into a Response by making use of the EventDispatcher. It's flexible enough to create a full-stack framework (Symfony), a micro-framework (Silex) or an advanced CMS system (Drupal).
-``
+```
 
 this task shouldn't be related to MVC, to Controllers or Bundles.
 It should be just about converting?
