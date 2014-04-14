@@ -78,8 +78,8 @@ public class FooTypeReferenceContributor extends PsiReferenceContributor {
 
 look at the package name if you dont know where to place the code.
 
-intelliJ merge autocompletions for all PsiReferences that all PsiReferenceProdiders return.
-Every PsiRefernce has a Method to provide autocompletion for this PsiReference.
+intelliJ merges autocompletions for all PsiReferences that all PsiReferenceProviders are returning.
+Every PsiReference has a method to provides a list possible autocompletions for this PsiReference.
 
 ### lets look at the FooTypeReference.
 
@@ -130,7 +130,7 @@ we will focus on autocompletion right know.
 the example returns one row with the static text "hello world 123".
 
 ### TypeLoookup
-the typeLookup represents one row in the autocompletion, for example you can change how the tet is rendered,
+the typeLookup represents one row in the autocompletion, for example you can change how the text is rendered,
 change icons or somethign else.
 
 ```java
