@@ -5,18 +5,25 @@ tags: [ symfony bundle httpkernel ]
 title: "Symfony2 PHPStorm Extension Extension."
 ---
 
-yesterday i thought about writing a PHPStorm plugin for symfony.
+a few days ago i thought about writing a PHPStorm plugin for symfony.
 most time i start to develop new stuff i spend a few minutes to look for existing implementations.
 
 a few minutes later i looked at the code of [this awesome Symfony2 Plugin](https://github.com/Haehnchen/idea-php-symfony2-plugin).
 
-today i'll write a bit about extending this extension to do more.
-it was hard to find something useful to extend because this plugin provides so much great stuff around symfony.
+i spend a few minutes with this code, installed IntelliJ and played around with modifying the code.
 
 this tutorial is just about learning how this kind of plugins works. it's not a best practice advice.
+i am quite new to intelliJ Plugins, so keep on reading the documentation :)
+
+i got some feedback from Alexey Gopachenko, so i started to
+refactor the code, droped useless stuff, wrote a simpler and hopefully not deprecated code.
+
+i also split the code from the symfony extension.
 
 ## challenge
-this example is as simple as possible, we will provide an autocompletion for the function foo inside of a controller.
+this example is as simple as possible, we will provide an autocompletion for something like a service locator.
+i'll focus on completion and resolving the parameter of the "get" function.
+If i have some spare time i'll try to add the autocompletion to the return Type of the "get"-Function.
 
 ## pre
 1. download intelliJ ultimate and a jdk
@@ -30,73 +37,104 @@ this example is as simple as possible, we will provide an autocompletion for the
 ### reference contributor
 at first we register a reference contributor.
 a reference contributor is about analyzing the ast (PSI) using event hooks like "call this on every String".
-a refernce contributor can register unlimit of these hooks.
+a refernce contributor can register unlimit of these hooks using the registerReferenceProvider method.
+intellJ colled this method everytime it requires a reference for autocompletion or to resolve a resource.
 
 ```java
-package fr.adrienbrault.idea.symfony2plugin.foo;
+package de.timglabisch.idea.demo;
 
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
-import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
-import fr.adrienbrault.idea.symfony2plugin.Symfony2ProjectComponent;
-import fr.adrienbrault.idea.symfony2plugin.util.MethodMatcher;
+import com.jetbrains.php.lang.psi.elements.*;
 import org.jetbrains.annotations.NotNull;
+
 
 public class FooTypeReferenceContributor extends PsiReferenceContributor {
 
     @Override
     public void registerReferenceProviders(PsiReferenceRegistrar psiReferenceRegistrar) {
-        psiReferenceRegistrar.registerReferenceProvider(  // register one callback for resolving psi stuff
-                PlatformPatterns.psiElement(StringLiteralExpression.class), // match on every String
-                new PsiReferenceProvider() {
-                    @NotNull
-                    @Override
-                    public PsiReference[] getReferencesByElement(@NotNull PsiElement psiElement, @NotNull ProcessingContext processingContext) {
-                        if (!Symfony2ProjectComponent.isEnabled(psiElement)) {
-                            return new PsiReference[0];
-                        }
+        psiReferenceRegistrar.registerReferenceProvider(
+            PlatformPatterns.psiElement(StringLiteralExpression.class),
+            new PsiReferenceProvider() {
+                @NotNull
+                @Override
+                public PsiReference[] getReferencesByElement(@NotNull PsiElement psiElement, @NotNull ProcessingContext processingContext) {
 
-                        // check if the method signature matches.
-                        MethodMatcher.MethodMatchParameter methodMatchParameter = new MethodMatcher.StringParameterMatcher(psiElement, 0)
-                                .withSignature("Tg\\BlogBundle\\DependencyInjection\\TgBlogExtension", "foo") // replace this to your class!
-                                .match();
-
-                        if(methodMatchParameter == null) {
-                            return new PsiReference[0];
-                        }
-
-                        // return an instance of an abstract PsiReferenceBase<PsiElement>
-                        return new PsiReference[]{ new FooTypeReference((StringLiteralExpression) psiElement) };
+                    PsiElement variableContext = psiElement.getContext();
+                    if(!(variableContext instanceof ParameterList)) {
+                        return new PsiReference[0];
                     }
+
+                    ParameterList parameterList = (ParameterList) variableContext;
+                    if (!(parameterList.getContext() instanceof MethodReference)) {
+                        return new PsiReference[0];
+                    }
+
+                    MethodReference methodReference = (MethodReference) parameterList.getContext();
+                    PsiElement method = methodReference.resolve();
+                    if(!(method instanceof Method)) {
+                        return new PsiReference[0];
+                    }
+
+                    // not we have the method and it's context
+                    // you could for example check some constraints...
+
+                    /*
+                    if(!((Method) method).getContainingClass().getNamespaceName().equals("\\Tg\\BlogBundle\\DependencyInjection\\")) {
+                        return new PsiReference[0];
+                    }
+
+                    if(!((Method) method).getContainingClass().getName().equals("TgBlogExtension")) {
+                        return new PsiReference[0];
+                    }
+                    */
+
+                    if(!((Method) method).getName().equals("get")) {
+                        return new PsiReference[0];
+                    }
+
+                    return new PsiReference[] {
+                            new FooTypeReference((StringLiteralExpression) psiElement)
+                    };
+
                 }
+            }
         );
     }
 
 }
+
 ```
 
 look at the package name if you dont know where to place the code.
 
 intelliJ merges autocompletions for all PsiReferences that all PsiReferenceProviders are returning.
-Every PsiReference has a method to provides a list possible autocompletions for this PsiReference.
+i had some trouble with doing heavy work like getting stuff from the index in the ReferenceContributor.
 
-### lets look at the FooTypeReference.
+the example returns a reference to a TypeReference.
+such types are responsible for resolving a list of autocompletions and resolving references.
+
+### FooTypeReference
 
 ```java
-package fr.adrienbrault.idea.symfony2plugin.foo;
+package de.timglabisch.idea.demo;
 
+import com.intellij.codeInsight.completion.PlainPrefixMatcher;
 import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReferenceBase;
+import com.intellij.codeInsight.lookup.LookupElementBuilder;
+import com.intellij.psi.*;
+import com.jetbrains.php.lang.psi.elements.*;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class FooTypeReference extends PsiReferenceBase<PsiElement> {
+public class FooTypeReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 
     private StringLiteralExpression element;
 
@@ -105,10 +143,36 @@ public class FooTypeReference extends PsiReferenceBase<PsiElement> {
         this.element = element;
     }
 
+    public Collection<String> getPossibleClassnames(String prefix) {
+        return PhpIndex.getInstance(this.getElement().getProject()).getAllClassNames(new PlainPrefixMatcher(prefix));
+    }
+
+    public String getClassName() {
+        return this.element.getContents().replace("IntellijIdeaRulezzz ", "");
+    }
+
+    @NotNull
+    @Override
+    public ResolveResult[] multiResolve(boolean incompleteCode) {
+        List<ResolveResult> results = new ArrayList<ResolveResult>();
+
+        for(String s : this.getPossibleClassnames(this.getClassName())) {
+
+            PhpClass klass = PhpIndex.getInstance(this.element.getProject()).getClassByName(s);
+
+            if (klass != null) {
+                results.add(new PsiElementResolveResult(klass));
+            }
+        }
+
+        return results.toArray(new ResolveResult[results.size()]);
+    }
+
     @Nullable
     @Override
     public PsiElement resolve() {
-        return null;
+        ResolveResult[] resolveResults = multiResolve(false);
+        return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
     }
 
     @NotNull
@@ -117,7 +181,9 @@ public class FooTypeReference extends PsiReferenceBase<PsiElement> {
 
         List<LookupElement> lookupElements = new ArrayList<LookupElement>();
 
-        lookupElements.add(new FooTypeLookup("hello world 123", "hello world 123"));
+        for(String s : this.getPossibleClassnames(this.getClassName())) {
+            lookupElements.add(LookupElementBuilder.create(s));
+        }
 
         return lookupElements.toArray();
     }
@@ -125,55 +191,14 @@ public class FooTypeReference extends PsiReferenceBase<PsiElement> {
 }
 ```
 
-the getVariants is called for the autocompletion stuff. resolve is used for things like "go to".
-we will focus on autocompletion right know.
-the example returns one row with the static text "hello world 123".
 
-### TypeLoookup
-the typeLookup represents one row in the autocompletion, for example you can change how the text is rendered,
-change icons or somethign else.
-
-```java
-packge fr.adrienbrault.idea.symfony2plugin.foo;
-
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementPresentation;
-import fr.adrienbrault.idea.symfony2plugin.Symfony2Icons;
-import org.jetbrains.annotations.NotNull;
-
-
-public class FooTypeLookup extends LookupElement {
-
-    private String key;
-    private String name;
-
-    public FooTypeLookup(String key, String name) {
-        this.key = key;
-        this.name = name;
-    }
-
-    @NotNull
-    @Override
-    public String getLookupString() {
-        return name;
-    }
-
-    public void renderElement(LookupElementPresentation presentation) {
-        presentation.setItemText(getLookupString());
-        presentation.setTypeText(key);
-        presentation.setTypeGrayed(true);
-        presentation.setIcon(Symfony2Icons.FORM_TYPE);
-    }
-
-}
-```
 
 ## register the extension
 now look at the /META-INF/plugin.xml
 just add another psi.referenceContributor
 
 ```
-<psi.referenceContributor implementation="fr.adrienbrault.idea.symfony2plugin.foo.FooTypeReferenceContributor"/>
+<psi.referenceContributor implementation="de.timglabisch.idea.demo.FooTypeReferenceContributor"/>
 ```
 
 ## Compile :)
