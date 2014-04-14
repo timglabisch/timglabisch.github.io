@@ -38,7 +38,7 @@ If i have some spare time i'll try to add the autocompletion to the return Type 
 at first we register a reference contributor.
 a reference contributor is about analyzing the ast (PSI) using event hooks like "call this on every String".
 it can register unlimit of these hooks using the registerReferenceProvider method.
-intellJ colled this method everytime it requires a reference for autocompletion or to resolve a resource.
+intellJ called this method everytime it requires a reference for autocompletion or to resolve a resource.
 
 ```java
 package de.timglabisch.idea.demo;
