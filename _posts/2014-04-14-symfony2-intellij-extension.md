@@ -16,7 +16,7 @@ this tutorial is just about learning how this kind of plugins works. it's not a 
 i am quite new to intelliJ Plugins, so keep on reading the documentation :)
 
 i got some feedback from Alexey Gopachenko, so i started to
-refactor the code, droped useless stuff, wrote a simpler and hopefully not deprecated code.
+refactor the code, dropped useless stuff, wrote a simpler and hopefully not deprecated code.
 
 i also split the code from the symfony extension.
 
