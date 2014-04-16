@@ -8,7 +8,7 @@ title: "PHPStorm Quickfix Extension"
 today i had a bit time to play around with building a small QuickFix-Extension for PHPStorm.
 
 the demo extension i build is useless but i think the code is very straight forward and easy to understand.
-the code is written by try and error, if you've feedback and ideas how to improve it, please let me now.
+the code is written by trial and error, if you've feedback and ideas how to improve it, please let me know.
 
 the extension will promote itself as "MAKE EVERYTHING FINE!" Quickfix.
 it will occur if there is any string that starts with "some:".
@@ -18,7 +18,7 @@ if you use the quickfix it will add an constructor to your class.
 ## The Annotator
 
 at first we need an annotator, it is responsible to find code smells and add a hint.
-for example if you use a codesniffer, it will promote some type of Annotation.
+a codesniffer is a great example for an annotator, or something like "would you like to import class X".
 
 ```java
 package de.timglabisch.idea.demo.quickfix;
@@ -53,9 +53,9 @@ public class ContructorInjectionAnnotator implements Annotator {
 ```
 
 here we create an errorAnntation with the infotext "this just sucks".
-intellij will promote the textrange as "error".
+intellij will promote the textrange as "error" and shows the errortext if you hover the textrange.
 
-you can register an Fix for this issue, in our case it's called "UseContructorInjectionQuickFix"
+you can register an fix for this issue, in our case it's called "UseContructorInjectionQuickFix"
 
 
 ## Fixing The Code
@@ -144,10 +144,10 @@ public class UseContructorInjectionQuickFix extends BaseIntentionAction {
 }
 ```
 
-if you chose the Fix in IntelliJ the invoke method is called.
+if you choose the fix in IntelliJ the invoke method is called.
 in the invoke method you have to make sure that you're in a thread that is allowed to change the ast.
 
-in the run command we are able to create a new constructor.
+in the run command we are able to create the new constructor.
 the PhpPsiUtil will help you to find the first child element of the class with the content "{".
 you should use the psiViewer plugin to find elements in the ast.
 
