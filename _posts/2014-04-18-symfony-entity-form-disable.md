@@ -129,9 +129,9 @@ class LoadDemoChoices implements FixtureInterface {
 
 the challenge is that we want to display a disabled="disabled" attribute if the isActive flag is false.
 the solution is quite simple. just overwrite the correct part of your template.
-
-```twig
 {% raw %}
+```twig
+
 {% extends '::base.html.twig' %}
 {% form_theme form.foo _self %}
 
@@ -153,9 +153,9 @@ the solution is quite simple. just overwrite the correct part of your template.
 {% block body %}
     {{ form(form) }}
 {% endblock %}
-{% endraw %}
-```
 
+```
+{% endraw %}
 look at the options tag.
 instead of using _this as form theme i would suggest to use a different file.
 i just overwrote the template for form element, so it's possible to just overwrite this block.
