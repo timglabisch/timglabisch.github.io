@@ -131,6 +131,7 @@ the challenge is that we want to display a disabled="disabled" attribute if the 
 the solution is quite simple. just overwrite the correct part of your template.
 
 ```twig
+{% raw %}
 {% extends '::base.html.twig' %}
 {% form_theme form.foo _self %}
 
@@ -152,6 +153,7 @@ the solution is quite simple. just overwrite the correct part of your template.
 {% block body %}
     {{ form(form) }}
 {% endblock %}
+{% endraw %}
 ```
 
 look at the options tag.
