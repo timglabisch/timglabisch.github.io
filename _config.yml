@@ -3,6 +3,7 @@ permalink: pretty
 pygments:  true
 markdown:  redcarpet
 exclude:   [ README.md, Gemfile ]
+encoding: utf-8
 
 site:
     title:  Tim Glabisch

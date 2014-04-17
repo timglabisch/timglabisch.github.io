@@ -129,32 +129,32 @@ class LoadDemoChoices implements FixtureInterface {
 
 the challenge is that we want to display a disabled="disabled" attribute if the isActive flag is false.
 the solution is quite simple. just overwrite the correct part of your template.
+{% raw %}
+```html
+{% extends '::base.html.twig' %}
+{% form_theme form.foo _self %}
 
-```twig
-
-\{% extends '::base.html.twig' %\}
-\{% form_theme form.foo _self %\}
-
-\{% block choice_widget_options %\}
-    \{% spaceless %\}
-        \{% for group_label, choice in options %\}
-            \{% if choice is iterable %\}
+{% block choice_widget_options %}
+    {% spaceless %}
+        {% for group_label, choice in options %}
+            {% if choice is iterable %}
                 <optgroup label="{{ group_label|trans({}, translation_domain) }}">
-                    \{% set options = choice %\}
+                    {% set options = choice %}
                     {{ block('choice_widget_options') }}
                 </optgroup>
-            \{% else %\}
-                <option \{% if choice.data.isActive == true %\}" disabled="disabled" \{% endif %\} value="{{ choice.value }}"\{% if choice is selectedchoice(value) %\} selected="selected"\{% endif %\}>{{ choice.label|trans({}, translation_domain) }}</option>
-            \{% endif %\}
-        \{% endfor %\}
-    \{% endspaceless %\}
-\{% endblock %\}
+            {% else %}
+                <option {% if choice.data.isActive == true %}" disabled="disabled" {% endif %} value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+            {% endif %}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock %}
 
-\{% block body %\}
+{% block body %}
     {{ form(form) }}
-\{% endblock %\}
+{% endblock %}
 
 ```
+{% endraw %}
 
 look at the options tag.
 instead of using _this as form theme i would suggest to use a different file.
