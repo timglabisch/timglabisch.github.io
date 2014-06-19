@@ -54,7 +54,7 @@ Composer or just pay because he needs to use Toran.
 
 ## a better solution
 of course it would be awesome if the community would be able to fund Composer and the Packagist platform to ensure
-that [@seldaek](https://twitter.com/seldaek) it is able to build the infrastructure we all are depending on.
+that [@seldaek](https://twitter.com/seldaek) is able to build the infrastructure we all are depending on.
 
 if this isn't possible there should be a easy solution to support Composer without paying for Toran.
 The important idea is that there should be a support plan that is independent to Toran, a funny solution would be to make
