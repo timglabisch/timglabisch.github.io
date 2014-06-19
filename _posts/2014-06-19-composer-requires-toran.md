@@ -5,7 +5,7 @@ tags: [ composer toran ]
 title: "Composer requires Toran"
 ---
 
-# Today is a bad day, Composer requires Toran.
+## Today is a bad day, Composer requires Toran.
 
 Today [@seldaek](https://twitter.com/seldaek) announced [Toran](https://toranproxy.com).
 At first i was very happy about the announcement, but then i realized that this is quite bad for the php ecosystem.
