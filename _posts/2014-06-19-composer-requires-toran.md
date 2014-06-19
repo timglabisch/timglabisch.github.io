@@ -47,14 +47,14 @@ by improving Composers ecosystem you hurt the business model and jeopard Compose
 [@seldaek](https://twitter.com/seldaek) mentioned
  > think of it like donating except you get something for it.
 
- this is also not true. it's more like a vicious circle.
- everyone who is paying for Toran makes Composer more depending on it and ensures that composer will never get the
- ecosystem it requires. [@seldaek](https://twitter.com/seldaek) would never know if someone would like to support
- Composer or just pay because he needs to use Toran.
+this is also not true. it's more like a vicious circle.
+everyone who is paying for Toran makes Composer more depending on it and ensures that composer will never get the
+ecosystem it requires. [@seldaek](https://twitter.com/seldaek) would never know if someone would like to support
+Composer or just pay because he needs to use Toran.
 
- ## a better solution
- of course it would be awesome if the community would be able to fund Composer and the Packagist platform to ensure
- that [@seldaek](https://twitter.com/seldaek) it is able to build the infrastructure we all are depending on.
+## a better solution
+of course it would be awesome if the community would be able to fund Composer and the Packagist platform to ensure
+that [@seldaek](https://twitter.com/seldaek) it is able to build the infrastructure we all are depending on.
 
 if this isn't possible there should be a easy solution to support Composer without paying for Toran.
 The important idea is that there should be a support plan that is independent to Toran, a funny solution would be to make
