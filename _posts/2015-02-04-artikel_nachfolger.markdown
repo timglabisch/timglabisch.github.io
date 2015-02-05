@@ -28,6 +28,7 @@ Besteht Beispielsweise wie Abhängigkeit
 Produkt A -(kennt)-> Produkt B -(kennt)-> Produkt C
 
 So könnte ohne Problem:
+
 ```
 Produkt C wird angelegt
 Produkt B wird angelegt und Referenz zwischen Produkt C und B gesetzt werden
@@ -46,12 +47,14 @@ sprich wir eine Linked List erstellen möchten, wir aber nicht alle Produkte tat
 In diesem Fall ist es notwendig, dass alle Nachfolger *oder* alle Vorgänger (je nach Richtung der Linked List) bekannt sind.
 
 Beinhaltet beispielsweise:
+
 ```
 Produkt A die Informationen A <-
 und Produkt D die Information  D <- C <- B <- A
 ```
 
 uns es werden nur die Produkt A und D importiert, so besteht die Möglichkeit:
+
 ```
 Produkt A wird angelegt
 Produkt D wird angelegt
@@ -71,6 +74,7 @@ Im Idealfall spielt die Sortierung der Produkte im keine Rolle.
 Wenn die Sortung Start- oder Endpunkt der Linked List nicht bekannt ist, muss jeder Datensatz Informationen über alle Vor- und Nachfolger besitzen:
 
 Beispiel:
+
 ```
 Produkt C die Informationen A <- B <- C <- D
 Produkt A die Informationen A <- B <- C <- D
@@ -99,12 +103,19 @@ In der Datenbank sind jedoch nur Produkt A und C hinterlegt, eine sinnvolle Date
 
 Eine einfache Lösung wäre diese Liste im RAM zu belassen.
 Faktisch ist dies möglich, praktisch gibt es einige Gründe welche dagegen sprechen:
+
 - Dies funktioniert nur bei komplettimporten.
+
 - Eine weitere Lösung muss implementiert werden für Delta Updates
+
 - Mehrere Lösungen sind immer sehr viel fehleranfälliger und aufwendiger
+
 - Der Ansatz skaliert nicht linear
+
 - Dieser Ansatz läuft nicht auf einem verteilten System
+
 - Daten sind kurzzeitig in einem nicht definierten Zustand
+
 - Delta Updates benötigen identisches globales Lock wie der Vollimport
 
 Noch extremer fällt dies aus, wenn ein zweiter Job im nachhinein die Linked List auflöst.
@@ -119,6 +130,7 @@ Aus diesem Grund sollten nur kleine und vorallem atomare Veränderungen getätig
 Um dies zu erfüllen, kann eine Variation eines Optimisitc Locking's genutzt werden.
 
 Beispiel:
+
 ```
 In der Datenbank ist hinterlegt: A <- C <- D
 Importiert wird das Produkt B mit den Informationen A <- B <- C <- D
