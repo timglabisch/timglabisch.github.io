@@ -17,7 +17,7 @@ Meine erste Reaktion ist grade bei bestehenden Projekten erstmal ein abgeschreck
 Es spricht für das Team solche Fragen zu stellen. Es ist sehr gesund vorhandenes
 optimieren und hinterfragen zu wollen. In gesunden Teams kommen solche Fragen auf und sollten entsprechend besprochen werden.
 
-# Cases
+## Cases
 Gehen wir davon aus, wir haben ein bestehendes System.
 Im Normalfall werde ich in E-Commerce Projekte gerufen.
 
@@ -44,6 +44,9 @@ Klassische Probleme bei Produktlisten sind beispielsweise, dass für jedes Produ
 getätigt werden müssen. Noch dramatischer wird es, wenn beispielsweise die Sortierung, Gruppierung oder Paginierung
 nicht direkt in der entsprechenden Datenschicht getätigt werden kann.
 
+Ist dies gegegen, skaliert die Anwendung nicht. Dieses Problem ist sehr ernst zunehmen.
+Eine solche Basis lässt keine sinnvolle Weiterentwicklung nicht zu.
+
 
 ## Algorithmen
 Die Frage ob Technologie A oder B verwendet werden soll, kann effektiver beantwortet werden, wenn man sich fragt,
@@ -58,15 +61,17 @@ Wichtig ist auch, dass das Team sich mit der Lösung auskennt, oder danach streb
 sinnvoll sein, sich auch das Experiment einzulassen, mal was neues auszuprobieren.
 
 Ist man darauf angewiesen, komplexere SQL Statements zu schreiben, so ist man vermutlich mit PostgreSQL besser dran als mit MySQL.
+Dies sollte jedoch von Fall zu Fall gründlich überlegt sein.
 
 Architektonisch hat sich hier der Microservice Gedanke durchgesetzt. Entwickel eine Lösung für ein Problem und wähle die besten Mittel.
 Es ist nichts falsch daran, auch unterschiedliche Technologien zu verwenden, schließlich löst man auch unterschiedliche Probleme.
 
 Eine komplexe Software lässt sich idr. kaum entwickeln. Viel schauer ist es die Probleme in unterschiedliche kleine Softwarestückchen runterzubrechen.
+Die Software wird damit deutlich weniger komplex, weil sie nur ein Problem löst.
 
 
 ## Case Performance
-Klassische Probleme sind hier die Produktlisten.
+Klassische Probleme bei E-Commerce Projekten sind die Produktlisten.
 Produktlisten, Facettierungen und andere Filtermöglichkeiten kosten oft viel Performance.
 Es ist schon fast normal, dass im Laufe eines E-Commerce Projektes hier irgendwann eine
 gewisse Frustrationsrate überschritten wird. Sei es bedingt durch ein enttäuschtes Projektmanagement
@@ -76,7 +81,7 @@ Es ist sehr wichtig solche Anzeichen erst zu nehmen.
 Kann eine alternative Technologie hier helfen? Oft Hilft einfach ein anderer Blick auf das Problem.
 Um diesen zu Blick zu gewinnen, hilft es oft sich mit alternativen Technologien zu beschäftigen.
 
-Dies liegt nicht daran, dass man eine Software nutzt, dies liegt daran, dass man das Problem mit anderen Lösungen begegnet.
+Dies liegt nicht daran, dass man eine Software nutzt. Es geht darum, dass man das Problem mit anderen Lösungen begegnet.
 
 Wer jemals versucht hat eine klassische Facettierung mittels einer standard SQL Datenbank zu implementieren wird
 mit einer hohen wahrscheinlichkeit eine komplexe und wenig effektive Lösung erarbeiten.
@@ -84,7 +89,7 @@ mit einer hohen wahrscheinlichkeit eine komplexe und wenig effektive Lösung era
 Ein Teil von CQRS beschreibt die Nutzung von Views auf gewisse Daten. Die Idee ist einfach.
 Bei einem klassischen Projekt werden alle Daten normalisiert in eine Datenbank geschrieben.
 Die Daten liegen so vor, dass diese effektiv bearbeitet werden können. Die Lehre besagt, die Daten "sinnvoll" abzulegen.
-Die Welt wäre sehr eintönig, wenn sich "sinnvoll" so einfach definieren lassen könnte. Oft wird hier einfach beschrieben wie man die Daten
+Die Welt wäre sehr eintönig, wenn sich "sinnvoll" so einfach definieren lassen könnte. Oft ist hier einfach definiert, dass man die Daten
 in einer der Normalformen ablegt.
 
 Die Realität zeigt jedoch, dass man mit den Normalformen hier oft nicht weit kommt. In vielen Anwendungen geht es darum, Daten effektiv zu lesen,
@@ -93,19 +98,17 @@ Es ist kein Zufall, dass es Wochen dauert, bis beispielsweise Facebook ein Profi
 
 
 ## Take Care
-Nutzt man unterschiedliche Datenbanktechnologien entstehen gerne ungewollte nebenwirkungen.
+Nutzt man unterschiedliche Datenbanktechnologien entstehen gerne ungewollte Nebenwirkungen.
 Beispielsweise darf nicht vernachlässigt werden, dass viele Datenbanken keine Transaktionen unterstützen. Insbesondere in verteilten
 Systemen kann dies bei mangelnder architektonischer Erfahrung schnell zum Problem werden.
 Auch sind die Datenbanken dadurch zwangsläufig nicht immer synchon.
 Im Zweifel geht es darum, selbstheilende Systeme zu schaffen, welche fehlertolerant sind.
-Entsprechende Architekturen bringen entsprechende Lösungen mit entsprechenden Einschränkungen hier mit.
-Im Zweifel bleibt nur, sich genau damit zu beschäftigen.
 
 ## Speichern von was?
 Hin und wieder sehe ich, dass beispielsweise fertig gerendertes HTML in einen Redis (memcache(d) ist ja out) gelegt wird um dieses dann zu nutzen.
 Im Normalfall ist dies eine sehr schlechte Idee.
 
-Software ist idr. in unterschiedliche Schichten aufgeteilt. Legt (pusht) man statisches HTML als Sicht ab, so werden diese schichten nicht beachtet.
+Software ist idr. in unterschiedliche Schichten aufgeteilt. Legt (pusht) man statisches HTML als Sicht ab, so werden diese Schichten nicht beachtet.
 Viel besser ist es, die Daten in serialisierter Form abzulegen. Wichtig ist dabei, dass wirkliche Daten in einer Rohform abgelegt werden.
 Google und Facebook machen mit Protobuffer bzw. Thrift erfolgreich vor, wie ein solches versionierbares Serialisierungsformat aussehen kann.
 Der Fokus liegt hier auf Versionierbar.
