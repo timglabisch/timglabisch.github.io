@@ -28,9 +28,12 @@ Besteht Beispielsweise wie Abhängigkeit
 Produkt A -(kennt)-> Produkt B -(kennt)-> Produkt C
 
 So könnte ohne Problem:
+
+```
 Produkt C wird angelegt
 Produkt B wird angelegt und Referenz zwischen Produkt C und B gesetzt werden
 Produkt A wird angelegt und Referenz zwischen Produkt A und B gesetzt werden.
+```
 
 Dies setzt voraus, dass alle Referenzen tatsächlich auch in korrekter Reihenfolge importiert werden können.
 Zudem ist es zwigend notwendig, dass es keine Referenzen auf Produkte gibt, welche nicht importiert werden.
@@ -44,15 +47,21 @@ sprich wir eine Linked List erstellen möchten, wir aber nicht alle Produkte tat
 In diesem Fall ist es notwendig, dass alle Nachfolger *oder* alle Vorgänger (je nach Richtung der Linked List) bekannt sind.
 
 Beinhaltet beispielsweise:
+
+```
 Produkt A die Informationen A <-
 und Produkt D die Information  D <- C <- B <- A
+```
 
 uns es werden nur die Produkt A und D importiert, so besteht die Möglichkeit:
+
+```
 Produkt A wird angelegt
 Produkt D wird angelegt
 Es wird geprüft ob Produkt C existiert, sollte dies der Fall sein wird eine Referenz zwischen D und C erstellt und abgebrochen
 Es wird geprüft ob Produkt B existiert, sollte dies der Fall sein wird eine Referenz zwischen D und B erstellt und abgebrochen
 Es wird geprüft ob Produkt D existiert, sollte dies der Fall sein wird eine Referenz zwischen D und A erstellt und abgebrochen
+```
 
 Dieser Ansatz ist etwas aufwendiger, es besteht jedoch die Möglichkeit lücken in einer Linked List zu identifizieren und zu schließen.
 
@@ -65,8 +74,11 @@ Im Idealfall spielt die Sortierung der Produkte im keine Rolle.
 Wenn die Sortung Start- oder Endpunkt der Linked List nicht bekannt ist, muss jeder Datensatz Informationen über alle Vor- und Nachfolger besitzen:
 
 Beispiel:
+
+```
 Produkt C die Informationen A <- B <- C <- D
 Produkt A die Informationen A <- B <- C <- D
+```
 
 Im Export lassen sich solche Informationen sehr gut cachen, können somit sogar günstiger sein, als Vorgänger oder Nachfolger zu ermitteln.
 In diesem Fall wird
@@ -91,12 +103,19 @@ In der Datenbank sind jedoch nur Produkt A und C hinterlegt, eine sinnvolle Date
 
 Eine einfache Lösung wäre diese Liste im RAM zu belassen.
 Faktisch ist dies möglich, praktisch gibt es einige Gründe welche dagegen sprechen:
+
 - Dies funktioniert nur bei komplettimporten.
+
 - Eine weitere Lösung muss implementiert werden für Delta Updates
+
 - Mehrere Lösungen sind immer sehr viel fehleranfälliger und aufwendiger
+
 - Der Ansatz skaliert nicht linear
+
 - Dieser Ansatz läuft nicht auf einem verteilten System
+
 - Daten sind kurzzeitig in einem nicht definierten Zustand
+
 - Delta Updates benötigen identisches globales Lock wie der Vollimport
 
 Noch extremer fällt dies aus, wenn ein zweiter Job im nachhinein die Linked List auflöst.
@@ -111,11 +130,17 @@ Aus diesem Grund sollten nur kleine und vorallem atomare Veränderungen getätig
 Um dies zu erfüllen, kann eine Variation eines Optimisitc Locking's genutzt werden.
 
 Beispiel:
+
+```
 In der Datenbank ist hinterlegt: A <- C <- D
 Importiert wird das Produkt B mit den Informationen A <- B <- C <- D
+```
 
 Als erstes findet eine Abfrage statt, welche die Verfügbarkeit von A, C und D prüft.
+
+```
 SELECT id from products where id IN (A, C, D)
+```
 
 Nun kann ein Update inkl. optimistic locking stattfinden:
 update product where id = "A" AND nachfolger = "C" SET nachfolger = "B"
@@ -137,25 +162,33 @@ Was algorithmisch erstmal nicht optimal erscheint, kann aufgrund der einfacherer
 Zudem sind Datenbanken genau auf solche Tasks optimiert.
 
 Angenommen wir befinden uns auf der Detailseite von Produkt B.
+
 Gegeben ist die Linked List A <- B <- C <- D
+
 In der Datenbank ist folgendes Hinterleft:
 
+```
 id    Nachfolger
 A  -> B
 B  -> C
 C  -> D
 D  -> NULL
+```
 
+```
 SELECT id, nachfolger FROM products where id = C or nachfolger = B // A, C
 SELECT id, nachfolger FROM products where id = A or nachfolger = A // A  Erster Eintrag weil nur ein Treffer.
 SELECT id, nachfolger FROM products where id = C or nachfolger = C // C, D
 SELECT id, nachfolger FROM products where id = D or nachfolger = D // D, NULL // Letzter Eintrag weil NULL
+```
 
 Nutzt man ein ORM ist es oft einfacher, schlicht den ersten EIntrag zu ermitteln und daraufhin linear durch
 die Einträge durchzuiterieren:
 
+```
 SELECT id, nachfolger FROM products where id = C or nachfolger = B // A, C
 SELECT id, nachfolger FROM products where id = A or nachfolger = A // A  Erster Eintrag weil nur ein Treffer.
+```
 
 Faktisch sind zum auflösen einer Linked List in einer Datenbank einige Queries notwendig, Diese beziehen sich jedoch auf
 unique ID's und sind somit hochperformant. Die Liste lässt sich natürlich auch Cachen.
