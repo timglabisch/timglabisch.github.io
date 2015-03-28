@@ -90,3 +90,24 @@ in einer der Normalformen ablegt.
 Die Realität zeigt jedoch, dass man mit den Normalformen hier oft nicht weit kommt. In vielen Anwendungen geht es darum, Daten effektiv zu lesen,
 nicht diese möglichst kompakt in einer Normalform abzulegen.
 Es ist kein Zufall, dass es Wochen dauert, bis beispielsweise Facebook ein Profil gänze gelöscht hat.
+
+
+## Take Care
+Nutzt man unterschiedliche Datenbanktechnologien entstehen gerne ungewollte nebenwirkungen.
+Beispielsweise darf nicht vernachlässigt werden, dass viele Datenbanken keine Transaktionen unterstützen. Insbesondere in verteilten
+Systemen kann dies bei mangelnder architektonischer Erfahrung schnell zum Problem werden.
+Auch sind die Datenbanken dadurch zwangsläufig nicht immer synchon.
+Im Zweifel geht es darum, selbstheilende Systeme zu schaffen, welche fehlertolerant sind.
+Entsprechende Architekturen bringen entsprechende Lösungen mit entsprechenden Einschränkungen hier mit.
+Im Zweifel bleibt nur, sich genau damit zu beschäftigen.
+
+## Speichern von was?
+Hin und wieder sehe ich, dass beispielsweise fertig gerendertes HTML in einen Redis (memcache(d) ist ja out) gelegt wird um dieses dann zu nutzen.
+Im Normalfall ist dies eine sehr schlechte Idee.
+
+Software ist idr. in unterschiedliche Schichten aufgeteilt. Legt (pusht) man statisches HTML als Sicht ab, so werden diese schichten nicht beachtet.
+Viel besser ist es, die Daten in serialisierter Form abzulegen. Wichtig ist dabei, dass wirkliche Daten in einer Rohform abgelegt werden.
+Google und Facebook machen mit Protobuffer bzw. Thrift erfolgreich vor, wie ein solches versionierbares Serialisierungsformat aussehen kann.
+Der Fokus liegt hier auf Versionierbar.
+
+
