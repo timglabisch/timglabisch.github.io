@@ -117,6 +117,6 @@ Google und Facebook machen mit Protobuffer bzw. Thrift erfolgreich vor, wie ein 
 Der Fokus liegt hier auf versionierbar.
 
 
-## Kenne Deine Tools, Deune Community und das Featureset
+## Tools,Community und Featureset
 Neben klassischen Anforderungen bringen einige Datenbanken oft ein weiteres sehr interessantes Feature Set mit.
 PostgreSQL beispielsweise kann mittels "Foreign Data" und Materialized Views auch bei einfachen Abfragen eine Vereinfachung der Architektur ermöglichen.
