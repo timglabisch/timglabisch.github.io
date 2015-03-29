@@ -15,7 +15,7 @@ Meine erste Reaktion ist gerade bei bestehenden Projekten erst einmal ein abgesc
 
 
 ## Es ist Gesund.
-Es spricht für das Team solche Fragen zu stellen. Es ist sehr gesund, Vorhandenes
+Es spricht für das Team solche Fragen zu stellen. Es ist sehr gesund, vorhandenes
 optimieren und hinterfragen zu wollen. In gesunden Teams kommen solche Fragen auf und sollten entsprechend besprochen werden.
 
 
@@ -54,7 +54,7 @@ Eine solche Basis lässt keine sinnvolle Weiterentwicklung zu.
 Die Frage, ob Technologie A oder B verwendet werden soll, kann effektiver beantwortet werden, wenn man sich fragt,
 mit welchem Algorithmus man die konkrete Aufgabe lösen möchte. Welche Datenstrukturen sind sinnvoll für das aktuelle Problem?
 
-!Es ist wichtig dabei zu verstehen, dass man performante Software die entsprechenden Probleme performant löst.
+Es ist wichtig dabei zu verstehen, dass Performante Software geschrieben wird, indem Probleme effektiv gelöst werden.
 Im Klartext bedeutet das: "Wähle die passende Technologie für das passende Problem."
 
 Nutzt man einen ORM und ist man mit einer klassichen SQL Datenbank gut beraten.
@@ -69,7 +69,8 @@ Architektonisch hat sich hier der Microservice Gedanke durchgesetzt. Entwickle e
 Es ist nichts falsch daran, auch unterschiedliche Technologien zu verwenden, schließlich löst man auch unterschiedliche Probleme.
 
 Eine komplexe Software lässt sich i.d.R. kaum entwickeln. Viel schlauer ist es die Probleme in unterschiedliche kleine Softwarestückchen runterzubrechen.
-Die Software wird damit deutlich weniger komplex, weil sie nur ein Problem löst.
+Die Software wird damit deutlich weniger komplex, weil sie nur ein Problem löst. Identisches ist auf viele andere Bereiche der Informatik übertragbar.
+Clean Code beschreibt beispielsweise, dass eine Funktion eine Aufgabe haben sollte, eine Klasse und auch ein Package.
 
 
 ## Case Performance
@@ -90,13 +91,14 @@ mit einer hohen Wahrscheinlichkeit eine komplexe und wenig effektive Lösung era
 
 Ein Teil von CQRS beschreibt die Nutzung von Views auf gewisse Daten. Die Idee ist einfach.
 Bei einem klassischen Projekt werden alle Daten normalisiert in eine Datenbank geschrieben.
-Die Daten liegen so vor, dass diese effektiv bearbeitet werden können. Die Lehre besagt, die Daten "sinnvoll" abzulegen.
-Die Welt wäre sehr eintönig, wenn sich "sinnvoll" so einfach definieren lassen könnte. Oft ist hier einfach definiert, dass man die Daten
-in einer der Normalformen ablegt.
+Die Daten liegen so vor, dass diese effektiv bearbeitet werden können. Die klassische Lehre besagt, die Daten "sinnvoll" abzulegen.
+Die Welt wäre sehr eintönig, wenn sich "sinnvoll" so einfach definieren lassen könnte. gemeint ist hier i.d.R., dass die Daten
+in einer der Normalformen abzulegen sind.
 
 Die Realität zeigt jedoch, dass man mit den Normalformen hier oft nicht weit kommt. In vielen Anwendungen geht es darum, Daten effektiv zu lesen,
 nicht diese möglichst kompakt in einer Normalform abzulegen.
 Es ist kein Zufall, dass es Wochen dauert, bis beispielsweise Facebook ein Profil in Gänze gelöscht hat.
+Sehr empfehlenswert in diesem Kontext sind auch Talks über die Datenbank/Redis Struktur von Twitter.
 
 
 ## Take Care
