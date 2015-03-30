@@ -174,5 +174,5 @@ Dies liegt schlicht daran, dass die Infrastruktur deutlich weniger zutun hat.
 Solche Einschnitte in die Infrastruktur sollten immer optional sein. Baut man ein System, welches auf einen warmen Cache angewiesen ist, so fängt es an sehr kompliziert zu werden.
 Dies sollte man sich sehr gut überlegen und im besten Falle vermeiden.
 
-Stellt man bei einer eh schon performanten Anwendung einen Varnish davor, gewinnt man schlicht mehr Nutzerkompfort.
+Stellt man bei einer eh schon performanten Anwendung einen Varnish davor, gewinnt man schlicht mehr Nutzerkomfort.
 Versteckt man Performanceprobleme hinter einem Reverse Proxy, so wird nachhaltig die Anwendung darunter leiden.
