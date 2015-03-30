@@ -163,7 +163,7 @@ Besitzt man eine klassiche Produktliste und ist von dem N+1 Problem betroffen, s
 ElasticSearch Abfrage zu holen und zu verarbeiten.
 
 ## Der Webserver und vorbei.
-Scharfe zungen behaupten, sofern man einen Webserver trifft hat man performancetechnisch verloren.
+Scharfe Zungen behaupten, sofern man einen Webserver trifft hat man performancetechnisch verloren.
 Webserver sind sehr performant, wenn es um das ausliefern von Daten handelt.
 Hier ist ausschließlich der Fall gemeint, dass ein Request z.B. PHP trifft.
 
