@@ -4,45 +4,45 @@ tags: [ http flush stream symfony ]
 title: "Streaming Http Content using Symfony2"
 ---
 
-the http standard allows you to flush data as often as you can.
-this allows you for example to stream a huge file to the user.
+The HTTP standard allows you to flush data as often as you can.
+This allows you for example to stream a huge file to the user.
 
-but this isn't limited to files, videos or binary data.
-You can also stream html.
-the browser tries to parse and paint this html as fast as possible.
+But this isn't limited to files, videos or binary data.
+You can also stream HTML.
+The browser tries to parse and paint this HTML as fast as possible.
 
-so its possible to flush content to the user as fast as you can provide it.
-for example if you have a static header you could send to the client before doing heavy tasks like running your controller actions, parsing templates or other stuff.
+So it's possible to flush content to the user as fast as you can provide it.
+For example if you have a static header you could send it to the client before doing heavy tasks like running your controller actions, parsing templates or other stuff.
 
-the idea isn't a new idea, companies like google and facebook are using such optimizations for a long time.
+The idea isn't a new idea. Companies like Google and Facebook are using such optimizations for a long time.
 
 ## Framework Support
 
-i never met a framework in the php world that's developed with the idea of streaming content as fast as possible.
-i can't really understand why, but most frameworks want you to prepare a response and if everything is done the framework
-finally flush the response.
+I never met a framework in the PHP world that's developed with the idea of streaming content as fast as possible.
+I can't really understand why, but most frameworks want you to prepare a response and if everything is done the framework
+finally flushes the response.
 
-in the wild, this idea just sucks. why should a client wait for the footer to display the header or the content?
+In the wild, this idea just sucks. Why should a client wait for the footer to display the header or the content?
 
-## its not just about paining
-think about external resources like css styles. without loading the styles it's not possible to render a website.
-loading styles depends on network, network is io, io is slow.
-wouldn't it be awesome if you could flush the head as fast as possible to allow the browser fetching external resources?
+## It's not just about painting
+Think about external resources like CSS styles. Without loading the styles it's not possible to render a website.
+Loading styles depends on network, network is io, io is slow.
+Wouldn't it be awesome if you could flush the head as fast as possible to allow the browser fetching external resources?
 
-i hope you got the idea, now lets get a bit into the technical implementation using Symfony2.
+I hope you got the idea, now lets get a bit into the technical implementation using Symfony2.
 
 ## Example using Symfony2
 
 ### Demo
-i pushed a fully working demo at github:
+I pushed a fully working demo to Github:
 http://github.com/timglabisch/SymfonyDemoStreamBundle
 
-this is just a prove of concept, it's not build to win a design award :).
+This is just a proof of concept, it's not built to win a design award :).
 
-Symfony by default force you ro return a "Response" instance,
+Symfony by default forces you to return a "Response" instance,
 but it's also possible to return an instance of the class StreamedResponse.
 
-StreamedResponse takes a lambda that can produce any kind of output. like streaming a file, a video or html :).
+StreamedResponse takes a lambda that can produce any kind of output, like streaming a file, a video or HTML :).
 
 ```php
 
@@ -71,13 +71,13 @@ StreamedResponse takes a lambda that can produce any kind of output. like stream
 
 ```
 
-this is a quite complex example, you can play with this demo later on.
-i wrote a small helper, for now just think about echo if you see $helper->out.
+This is a quite complex example, you can play with this demo later on.
+I wrote a small helper, for now just think about `echo` if you see `$helper->out`.
 
-the markup is flushed to the client as fast as possible. so the client gets all of the content, even if the server
+The markup is flushed to the client as fast as possible. So the client gets all of the content, even if the server
 is blocked by the heavy sleep task.
 
-lets take a look at the helpers out method.
+Let's take a look at the `$helpers->out` method.
 
 ```php
 
@@ -107,26 +107,24 @@ lets take a look at the helpers out method.
 
 ```
 
-here i am fighting against the webserver. yeah, it sucks.
-the problem is about the output buffer in the apache. even if you flush the content in php using flush and ob_flush the
-the apache will buffer all the content - for performance reason, some kind of paradox? :)
-if you want to use such a technic make sure that the webserver buffer is small enough and you don't need to add useless characters
-to force the webserver to flush the markup.
+Here i am fighting against the webserver. Yeah, it sucks.
+The problem is about the output buffer in Apache. Even if you flush the content in PHP using flush and ob_flush, Apache will buffer all the content - for performance reasons -- kind of paradox, isn't it? :)
+If you want to use such a technique make sure that the webserver buffer is small enough and you don't need to add useless characters to force the webserver to flush the markup.
 
-## Order Matters.
-one problem is that the order of the markup matters.
-using css you can do funny things to reorder the markup.
-also keep in mind that it is possible to flush css that overwrites other css.
-so it's possible to add css if it's need and you can change existing styles if something is loaded.
+## Order Matters
+One problem is that the order of the markup matters.
+Using CSS you can do funny things to reorder the markup.
+Also keep in mind that it is possible to flush CSS that overwrites other CSS.
+So it's possible to add CSS if it's need and you can change existing styles if something is loaded.
 
 ### May a Solution?
-for example facebook is using an alternative way.
-they just push a grid of the website and insert the markup using javascript.
+For example Facebook is using an alternative way.
+They just push a grid of the website and insert the markup using Javascript.
 
-the cool thing about this is that the order of markup doesnt matter anymore.
-you just can stream the content in any order if it's ready.
-another great thing is that you can prioritize the content.
-think about hhvm's async features, would be cool to load all widgets in parallel and flush them as they are ready? :)
+The cool thing about this is that the order of markup doesn't matter anymore.
+You just can stream the content in any order if it's ready.
+Another great thing is that you can prioritize the content.
+Think about HHVM's async features. Wouldn't it be cool to load all widgets in parallel and flush them as they are ready? :)
 
 So lets create a grid we want to push:
 
@@ -197,7 +195,7 @@ So lets create a grid we want to push:
 
 ```
 
-now we have a bunch of id's which we can provide content for.
+Now we have a bunch of ids which we can provide content for.
 Lets modify the helper class.
 
 ```php
@@ -220,7 +218,7 @@ Lets modify the helper class.
 
 ```
 
-now we can start to use the placeholder in our controller.
+Now we can start to use the placeholder in our controller.
 
 ```php
 
@@ -290,5 +288,5 @@ now we can start to use the placeholder in our controller.
 
 ```
 
-if you want to play with this code, on my github page is a demo bundle
+If you want to play with this code. On my Github page is a demo bundle
 http://github.com/timglabisch/SymfonyDemoStreamBundle
