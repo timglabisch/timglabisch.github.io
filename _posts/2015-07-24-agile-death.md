@@ -46,11 +46,11 @@ Wer nicht ausreichend agil ist und nicht ohne nachzufragen Kundenwünsche implem
 Das funktioniert schon irgendwie! - und wenns nicht auf Dauer funktioniert, bezahlt wurde ja Sprint für Sprint.
 
 ## Warum geht das gut?
-Die große Frage die man sich nun stellen könnte ist ja, warum geht das gut und warum sind so viele Firmen so erfolgreich damit?
-Ein Großteil der Projekte welche von Agenturen umgesetzt werden, welche sehr erfolgreich sind, sind klein.
+Die große Frage, die man sich nun stellen könnte ist ja, warum geht das gut? Warum sind so viele Firmen so erfolgreich damit?
+Ein Großteil der Projekte welche von Agenturen "erfolgreich" umgesetzt werden, sind klein.
 Mit kleinen Projekten meine ich, dass diese über einige Monate laufen.
 
-Unterhochdruck schaffen die Entwickler eine halbwegs brauchbare Lösung und der Kunde ist zufrieden.
+Unter hochdruck (wie der Begriff Sprint so nett suggeriert) schaffen die Entwickler eine halbwegs brauchbare Lösung und der Kunde ist zufrieden.
 
 Laufen die Projekte länger oder es entstehen doch mal ernsthafte Anforderungen an die Software,
 so läuft man halt in Probleme.
