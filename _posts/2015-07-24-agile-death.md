@@ -80,8 +80,8 @@ dass ein Team professionell, ehrlich und erfahren sein muss, damit Agil wirklich
 Ich glaube garnicht dass die Frage ist, wer wirklich Schuld an der Entwicklung hat, die Frage ist primär,
 wer hat die Möglichkeit davor zu bewahren und nutzt diese nicht?
 Das Agile Manifest wurde primär von Software Entwicklern verfasst, dies liegt darin begründet, dass
-Entwickler in der Lage sind Anforderungendes Productowners zu sehen und die Entwicklung dieser Anforderungen
-zu verfolgen. Der Entwickler spürt solche Probleme deutlich intensiver.
+Entwickler in der Lage sind Anforderungen zu sehen und die Entwicklung dieser Anforderungen
+zu verfolgen. Der Entwickler spürt solche Probleme deutlich schneller und intensiver.
 
 Werden solche Probleme ignoriert ist es grob fahrlässig.
 Entwickler werden dafür bezahlt, Probleme zu lösen, Probleme sind positiv, ohne diese
