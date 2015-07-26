@@ -42,7 +42,7 @@ Wenn das nicht klappt, dann ist es das Entwicklerteam halt schuld.
 ### Die Agile Personalführung
 In einem agilen Team kann man nicht sonderlich aufsteigen, demnach bleiben die Personalkosten gering.
 Jeder macht halt das was er kann.
-Wer nicht ausreichend agil ist und sich nicht ohne nachzufragen Kundenwünsche implementiert, ist nicht gut fürs Klima.
+Wer nicht ausreichend agil ist und nicht ohne nachzufragen Kundenwünsche implementiert, ist nicht gut fürs Klima.
 Das funktioniert schon irgendwie! - und wenns nicht auf Dauer funktioniert, bezahlt wurde ja Sprint für Sprint.
 
 ## Warum geht das gut?
