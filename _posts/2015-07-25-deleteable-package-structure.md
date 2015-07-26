@@ -26,18 +26,18 @@ The examples are written using Symfony, but `DPS` is framework agnostic.
 
 
 | Package Type          | Responsibility                               |
-| --------------------- |:--------------------------------------------:|
+| --------------------- |--------------------------------------------  |
 | Project Package       | Project specific Files / Sourcecode.         |
-| --------------------- |:--------------------------------------------:|
+| --------------------- |--------------------------------------------  |
 | Domain Package        | Interfaces and Abstract Classes all          |
 |                       | Packages can refer. Defines the Public API   |
 |                       | Of all Data Structures and Services          |
-| --------------------- |:--------------------------------------------:|
+| --------------------- |--------------------------------------------  |
 | Project Package       | Implementations of Private and               |
 |                       |  Public Services. Public Services must       |
 |                       |  implement and return an Interface provided  |
 |                       |  by the Domain Package                       |
-| --------------------- |:--------------------------------------------:|
+| --------------------- | -------------------------------------------- |
 
 
 # Project Package
