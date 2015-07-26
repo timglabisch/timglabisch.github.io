@@ -109,7 +109,7 @@ kämpft für technisch korrekte und richtige Entscheidungen.
 
 ## Alles ist gut Mentalität
 Wenn es in Projekten darum geht, Probleme zu lösen, muss es möglich sein,
-dies offen zu kommunizieren. Konstruktives Feedback ist idr. nicht nur positiv.
+diese offen zu kommunizieren. Konstruktives Feedback ist idr. nicht nur positiv.
 
 Oft wird versucht, künstlich Probleme zu ignorieren. Dies schafft wirkliche Probleme.
 
