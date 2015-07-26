@@ -444,10 +444,10 @@ clean structure, this ensures that it's very hard to end up with a Big Ball of M
 
 ### Why `DPS` Makes Your Company Happy?
 `DPS` Focus on small, but nearly perfect `Packages`. This means the development
-Team isn't building one Huge Software, it's building many awesome `Packages`.
+Team isn't building one huge software, it's building many awesome `Packages`.
 For new team members it's very easy to learn enough about the project,
 to work on it. This ensures that new team members can join and unjoin the team efficiently.
 
-Applications written using `DPS` `should` never need be rewritten.
+Projects written using `DPS` `should` never need be rewritten.
 `DPS` preferes rewriting a Package whenever there is a better solution,
 over huge and risky rewrites of the complete software.
