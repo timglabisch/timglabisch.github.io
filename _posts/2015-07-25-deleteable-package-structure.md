@@ -359,3 +359,49 @@ In theory this works great, in practice, it's much easier to develop the `Packag
 `Domain Package` next to your main `Project Package`.
 If and only if the Project has more than one `Project Packages` it's a good practice to use a
 subtree splitter, to provide `Packages`.
+
+### How To Model Deep Bidirectional Object Structures, Like Huge ORM Object Graphs?
+`DPS` enforce multiple small `Packages`. Huge Object Graphs violates the Idea of `DPS`.
+Most time it makes sense to define one `Package` for one Aggregate Root (DDD).
+An Aggregate Root `must not` contain other Aggregate Roots.
+
+#### How To Model References Between Object Structures?
+References `must` be modeled using an identifier. An identifier could be any scalar value or
+a dedicateded Id Object. The Id Object must implement be part of the `Domain Package` knowledge,
+therefore it must implement a dedicated Interface provided by the `Domain Package`.
+
+```php
+    <?php
+
+    //....
+    use [Project]\Domain\Domain\ProductInterface;
+
+    class Product implements ProductInterface {
+
+        /** @return string */
+        public function getId() {
+            // ...
+        }
+
+    }
+```
+
+OR
+
+```php
+    <?php
+
+    //....
+    use [Project]\Domain\Domain\ProductInterface;
+    use [Project]\Domain\Domain\Product\ProductIdInterface;
+    use [Project]\ProductBundle\Dto\ProductId;
+
+    class Product implements ProductInterface {
+
+        /** @return ProductIdInterface */
+        public function getId() {
+            return new ProductId(/* ... */);
+        }
+
+    }
+```
