@@ -405,3 +405,25 @@ OR
 
     }
 ```
+
+### Why Enforce `DPS` Small and Deleteable `Packages`?
+`DPS` is all about writing as simple and clean software as possible.
+To enrich this `DPS` ensures that with changed requirements or new
+technical solutions `Packages` `can` be rewritten.
+
+`DPS` is written with Facebooks `The Hacker Way` in mind.
+"Be Open" for other implementations.
+Every `Package` "can be replaced by a better one".
+Make sure, that everyone can play / hack on new and hopefully better implementations.
+"Focus On The Impact" of every `Package`, "Move Fast" and "Don't Be Afraid" by changing,
+deleting code.
+
+Every `Package` should make strict decisions, this ensures that the `Package`
+is simple and the implementation highly specific to the problem it solves.
+
+The `Domain Packages` Interfaces are responsible to make sure, that everything
+is replaceable by a better implementation.
+
+`Packages` must not contain `Abstractions`, `Packages` `must` implement
+ Decisions. Decisions the `Project Package` and the `Domain Package` `must not`
+ take.
