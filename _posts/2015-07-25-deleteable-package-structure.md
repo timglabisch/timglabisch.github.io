@@ -438,7 +438,7 @@ As developer you're able to play with the best implementation for a Package.
 
 ### Why `DPS` Makes Product Owner Happy?
 Packages are highly specific to a problem. Most time this means, the Application
-performs very well. During a longer product the complexity stays low, this
+performs very well. During a longer project the complexity stays low, this
 ensures that the development team isn't slowed down. `DPS` focus on a
 clean structure, this ensures that it's very hard to end up with a Big Ball of Mud.
 
