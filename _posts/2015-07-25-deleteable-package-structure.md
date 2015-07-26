@@ -48,11 +48,11 @@ Most projects will start with one `Project Package`.
 
 The Project Package is allowed to contain:
 
-## Framework Specific Functionality
+### Framework Specific Functionality
 It's totally fine to couple the framework with the Project Package.
 One of the goals of `DPS` is to avoid coupling whenever it makes sense.
 
-## API Endpoints and Controller
+### API Endpoints and Controller
 Every endpoint of the Application is provided by the `Project Package`.
 The related controllers must only use classes / resources from it's own package namespace or the domain namespace.
 
@@ -100,7 +100,7 @@ Example
 the `Project Bundle` use it's own services if the service is highly
 project specific.
 
-## Templates
+### Templates
 Every template is provided by the Project Package.
 For Example, HTML Templates and also the structure any kind of Format provided by an API.
 
@@ -132,13 +132,13 @@ or replace `Packages` with other `Packages`. It's also totally fine to A / B Tes
 different `Packages`.
 
 
-## Public / Private / Tagged Services
+### Public / Private / Tagged Services
 It's totally fine if the `Project Package` defines `Public Services` and
 `Private Services`. This is useful if the logic behind the service is quite easy and
 specific to the project. For further reading, study the Public / Private Service Part of the packages,
 the restrictions are the same.
 
-## Tips
+### Tips
 The `Project Package` should be as small as possible and can become
 that huge that rewriting isn't possible anymore. Keeping the `Project Package`
 as simple as possible is a good idea.
@@ -160,24 +160,24 @@ The `Domain Package` is `must` be framework-agnostic.
 
 The `Domain Package` must only contain:
 
-## Public Service Interfaces
+### Public Service Interfaces
 Interfaces that are designed for stateless, framework-agnostic services.
 
-## Domain DTO Interfaces
+### Domain DTO Interfaces
 Every data structure that is used to share data between packages must be provided by
 as in interface in the `Domain Package`.
 For example, if the core domain is a shop, the `Domain Package` provides an interface for a product,
 if the product contains variants, or other subclasses, they must be provided as interfaces, too.
 
-## Domain DTO Abstract Classes
+### Domain DTO Abstract Classes
 Abstract Classes with boilerplate data structures. Use abstract classes wisely and rare, prefere interfaces over
 Abstract Classes whenever possible.
 
-## Tags
+### Tags
 The `Domain Package` can define some `Service Tags` Tags can be used by the `Project Package` and by
 any other `Package` to wire things together.
 
-## Tips
+### Tips
 Focus on your Domain Services, think about the best interface for your domain.
 Every team member should know (at least) most of your Domain Interfaces, so design them with care.
 It's a good idea to work on the `Domain Package` with other team members and discussing it.
@@ -197,25 +197,25 @@ A Package `should not` contain Interfaces or any abstractions. The Package is re
 
 Packages must only contain:
 
-## Public Services
+### Public Services
 Every `Public Service` `must` implement an Interface from the Domain Package.
 A `Public Service` `must` return native PHP Types (DateTime, Array, String, Int, ...) or objects that implement
 an interface in the `Domain Package`.
 
-## Public Tagged Services
+### Public Tagged Services
 Services can be wired together using Tags. Global Tags are provided by the `Domain Package` by definition.
 Every `Public Tagged Service` `must` implement a tag related interface, provided by the `Domain Package`.
 
-## Private Services
+### Private Services
 Every package is allowed to contain services / classes that are used internally to structure the package.
 An `Private Service` `must not` implement an interface from the `Domain Package`.
 An `Private Service` is allowed to use and return classes provided by the `Domain Package` and be the package itself.
 
-## Instance Handling
+### Instance Handling
 Every package has to provide solution to access the `Public Services`.
 For example in a typical Symfony Application, a `Package` could be represented as a Symfony bundle.
 
-## Tips
+### Tips
 Packages do the hard work, don't overengineer them. No more abstractions, keep performance in mind and do the job.
 This doesnt mean that every package should be a mess, it means, packages can be rewritten if a requirement is changing.
 Packages should focus on one requirement, this ensures that a package is easy enough to be rewritten.
@@ -228,7 +228,7 @@ Packages `must` be able to rewrite within 2 Weeks by one developer.
 Especially in agile teams this ensures, that core can be rewritten.
 
 # Faq
-## Where should repositories live in a `DPS` structure?
+### Where should repositories live in a `DPS` structure?
 `DPS` don't focus on the differences between repositories and services.
 For example if you use doctrine, the repository is part of the implementation detail
 of a doctrine specific package. The Project Package never deals with any kind of repository.
@@ -306,7 +306,7 @@ Even if the second example isn't that smart, it don't violate `DPS`.
 Everything is hidden between the ProductInterface and can be rewritten without changing
 any `Project Package` or any other `Package`.
 
-## Where should Entities / Dto's live?
+### Where should Entities / Dto's live?
 Entities and Data Transfer Objects (Dto's) lives in the related `Package`.
 Consider there are two different implementations of a product `Package`.
 
