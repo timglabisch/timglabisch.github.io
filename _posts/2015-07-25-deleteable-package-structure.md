@@ -345,3 +345,17 @@ All these Dto's must implement the ProductInterface provided by the `Domain Pack
 Deleteing / Replacing `Packages` `must` be easy.
 
 
+### In Symfony, Is A Package A Bundle?
+well, it seems to be a good idea, to model the `Project Package` as an AppBundle,
+`Packages` as Bundles and the `Domain Package` as Library.
+
+#### Why Is A Package Not A Library?
+`Packages` have to expose some kind of Service Konfigurations.
+Libraries can't integrate services without becoming a Bundle.
+`DPS` makes it easy to refactor `Packages` to Libraries, if your requirements are changing.
+
+### In PHP, Should Every Package Live In A Composer Package?
+In theory this works great, in practice, it's much easier to develop the `Packages` and the
+`Domain Package` next to your main `Project Package`.
+If and only if the Project has more than one `Project Packages` it's a good practice to use a
+subtree splitter, to provide `Packages`.
