@@ -5,7 +5,6 @@ tags: [ php architektur DPS ]
 title: "[en] Deleteable Package Structure"
 ---
 
-# Deleteable Package Structure
 There are several kinds of ways to structure projects at larger scale.
 This blogpost describes one architectural style I like to use in medium / larger applications.
 To make it easier to reference this style, i'll start calling it `DPS` (`Deleteable Package Structure`).
@@ -59,40 +58,40 @@ The related controllers must only use classes / resources from it's own package 
 
 Example
 
-    ```php
-        <?php
+```php
+    <?php
 
-        //....
-        use [Project]\Domain\Service\ProductServiceInterface;        // 1*
-        use [Project]\Domain\Service\CategoryServiceInterface;
-        use [Project]\Domain\Domain\ProductInterface;                // 2*
-        use [Project]\AppBundle\API\ProductTransformer;              // 3*
+    //....
+    use [Project]\Domain\Service\ProductServiceInterface;        // 1*
+    use [Project]\Domain\Service\CategoryServiceInterface;
+    use [Project]\Domain\Domain\ProductInterface;                // 2*
+    use [Project]\AppBundle\API\ProductTransformer;              // 3*
 
-        class ProductController {
-            // ....
+    class ProductController {
+        // ....
 
-            function __constructor(
-                ProductServiceInterface $productService,
-                CategoryServiceInterface $categoryService,
-                ProductTransformer $productTransformer
-            ) {
-                // ...
-            }
-
-            public function indexAction() {
-
-                /** @var $products Products[] */                     // 2*
-                $products = $this->productService->findAll();
-
-                return [
-                    'products' => $productTransformer->tranform(
-                        $products
-                    )
-                ];
-            }
-
+        function __constructor(
+            ProductServiceInterface $productService,
+            CategoryServiceInterface $categoryService,
+            ProductTransformer $productTransformer
+        ) {
+            // ...
         }
-    ```
+
+        public function indexAction() {
+
+            /** @var $products Products[] */                     // 2*
+            $products = $this->productService->findAll();
+
+            return [
+                'products' => $productTransformer->tranform(
+                    $products
+                )
+            ];
+        }
+
+    }
+```
 
 (1*) A Typically Controller using `DPS` just use interfaces that are provided by the
 `Domain Package`.
@@ -237,61 +236,61 @@ In case of managing products, the package `may` has an doctrine repository.
 It's up the the developer of the package, if the repository implements some kind of product service
 interface provided by the `Domain Package` or if the `Package` uses one or many repositories under the hood.
 
-    ```php
-        <?php
+```php
+    <?php
 
-        //....
-        use [Project]\Domain\Service\ProductServiceInterface;        // 1*
-        use Doctrine\ORM\EntityRepository;
+    //....
+    use [Project]\Domain\Service\ProductServiceInterface;        // 1*
+    use Doctrine\ORM\EntityRepository;
 
-        class ProductRepository extends EntityRepository implements ProductServiceInterface {
+    class ProductRepository extends EntityRepository implements ProductServiceInterface {
 
-            /**
-            * @return ProductInterface|null
-            */
-            public function getById($productId) {                    // 2*
+        /**
+        * @return ProductInterface|null
+        */
+        public function getById($productId) {                    // 2*
 
-                return [
-                    'products' => $this->find($productId)
-                ];
-            }
-
+            return [
+                'products' => $this->find($productId)
+            ];
         }
-    ```
+
+    }
+```
 
 OR
 
-    ```php
-        <?php
+```php
+    <?php
 
-        //....
-        use [Project]\Domain\Service\ProductServiceInterface;
-        use [Project]\DoctrineProductService\Dto\ProductDto;
-        use Doctrine\ORM\EntityRepository;
+    //....
+    use [Project]\Domain\Service\ProductServiceInterface;
+    use [Project]\DoctrineProductService\Dto\ProductDto;
+    use Doctrine\ORM\EntityRepository;
 
-        class ProductService implements ProductServiceInterface {
+    class ProductService implements ProductServiceInterface {
 
-            // ...
-            public function __constructor(EntityManager $em) {
-                $this->em = $em;
-            }
-
-            /**
-            * @return ProductInterface|null
-            */
-            public function getById($productId) {
-
-                $products = $em->getRepository(ProductDto::class)
-                               ->find($productId)
-                            ;
-
-                return [
-                    'products' => $products
-                ];
-            }
-
+        // ...
+        public function __constructor(EntityManager $em) {
+            $this->em = $em;
         }
-    ```
+
+        /**
+        * @return ProductInterface|null
+        */
+        public function getById($productId) {
+
+            $products = $em->getRepository(ProductDto::class)
+                           ->find($productId)
+                        ;
+
+            return [
+                'products' => $products
+            ];
+        }
+
+    }
+```
 
 (1*) It doesn't matter what kind of class the ProductServiceInterface implements.
 Other `Packages` must not use the repository, just the ProductServiceInterface.
