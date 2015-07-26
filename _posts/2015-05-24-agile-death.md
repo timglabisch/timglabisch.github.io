@@ -1,4 +1,9 @@
-# Agile Tod
+---
+layout: post
+tags: [ agile ]
+title: "Agile Tod"
+---
+
 
 Viele Unternehmen haben sich in den letzten Jahren vorgenommen agil zu werden.
 Hierbei stellt sich oft die Frage, was ist tatsächlich agil?
