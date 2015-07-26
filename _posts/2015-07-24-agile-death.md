@@ -17,7 +17,7 @@ gebildet, welche agil sein sollen. Doch was macht diese Konstrukte agil?
 Moderne Produktowner sind gerne agil. Sie haben die Macht, können alles jederzeit umwerfen und müssen sich auf nichts festlegen.
 Die agile Softwareentwicklung lebt davon, dass Anforderungen nicht bekannt sind und wenn sich sowie immer alles ändert, dann kann man auch
 gleich das Entwicklerteam an die hand nehmen und wöchentlich Anforderungen in das Projekt kippen.
-Der Productowner ist technisch nicht so versiert, diskutiert aber gerne mit den Entwicklern, dass die Anforderungen doch nur harmlos sind.
+Der Productowner ist technisch nicht so versiert, diskutiert aber gerne mit, schätzt Tickets und erklärt den Entwicklern, dass die Anforderungen doch nur harmlos sind.
 Geübt verbreitet er unmut und suggeriert dem Entwicklerteam, es müsste härter arbeiten, damit mehr (sehr sehr wichtige) Features in das System kommen.
 Schließlich hat der Productowner bei einem so tollen Team, dritten Stakeholdern schon viele Zugeständnisse und Versprechungen gemacht.
 
@@ -33,7 +33,7 @@ Außerdem sagt die arbeitsweise ja, es müsse agil und damit schnell gehen - dem
 
 ### Der Agile Scrum-Master
 Der Scrum-Master kann nur richtig liegen und wenn nicht, dann spielt er halt seine Position als "Master" aus.
-Er steuert was gesagt werden darf, was nicht. Als Manager erst er darin geübt.
+Er steuert was gesagt werden darf, was nicht. Als Manager ist er darin geübt.
 Er macht die Regeln. Das gelingt besonders gut, weil der Scrum Master selbst keine Verantwortung trägt,
 schließlich ist es nur seine Aufgabe zu schauen, dass die Entwickler besonders agil sind.
 Er hat sich nur darum zu kümmern, dass möglichst schnell möglichst agile Änderungen, irgendwie in die Software integriert werden.
