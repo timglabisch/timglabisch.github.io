@@ -366,9 +366,9 @@ Most time it makes sense to define one `Package` for one Aggregate Root (DDD).
 An Aggregate Root `must not` contain other Aggregate Roots.
 
 #### How To Model References Between Object Structures?
-References `must` be modeled using an identifier. An identifier could be any scalar value or
-a dedicateded Id Object. The Id Object must implement be part of the `Domain Package` knowledge,
-therefore it must implement a dedicated Interface provided by the `Domain Package`.
+References `must` be modeled using an identifier. An identifier `could` be any scalar value or
+a dedicateded Id Object. The Id Object `must` is part of the `Domain Package` knowledge,
+therefore it `must` implement a dedicated Interface provided by the `Domain Package`.
 
 ```php
     <?php
