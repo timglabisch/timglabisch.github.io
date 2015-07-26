@@ -425,5 +425,29 @@ The `Domain Packages` Interfaces are responsible to make sure, that everything
 is replaceable by a better implementation.
 
 `Packages` must not contain `Abstractions`, `Packages` `must` implement
- Decisions. Decisions the `Project Package` and the `Domain Package` `must not`
- take.
+Decisions. Decisions the `Project Package` and the `Domain Package` `must not`
+take.
+
+###  Why `DPS` Makes Developers Happy?
+`DPS` focus on a clean and easy structure, that is really hack and replaceable.
+As Developer you can change and rewrite parts of the application fast, change
+parts of the technology stack and it's hard to encounter situations, where
+the design of the software slows you down.
+
+As developer you're able to play with the best implementation for a Package.
+
+### Why `DPS` Makes Product Owner Happy?
+Packages are highly specific to a problem. Most time this means, the Application
+performs very well. During a longer product the complexity stays low, this
+ensures that the development team isn't slowed down. `DPS` focus on a
+clean structure, this ensures that it's very hard to end up with a Big Ball of Mud.
+
+### Why `DPS` Makes Your Company Happy?
+`DPS` Focus on small, but nearly perfect `Packages`. This means the development
+Team isn't building one Huge Software, it's building many awesome `Packages`.
+For new team members it's very easy to learn enough about the project,
+to work on it. This ensures that new team members can join and unjoin the team efficiently.
+
+Applications written using `DPS` `should` never need be rewritten.
+`DPS` preferes rewriting a Package whenever there is a better solution,
+over huge and risky rewrites of the complete software.
