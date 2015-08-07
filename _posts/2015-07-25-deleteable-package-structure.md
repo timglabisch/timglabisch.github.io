@@ -5,24 +5,23 @@ tags: [ php architektur DPS ]
 title: "[en] Deleteable Package Structure"
 ---
 
-There are several kinds of ways to structure projects at larger scale.
+There are several ways to structure projects at larger scale.
 This blogpost describes one architectural style I like to use in medium / larger applications.
 To make it easier to reference this style, i'll start calling it `DPS` (`Deleteable Package Structure`).
 The examples are written using Symfony, but `DPS` is framework agnostic.
 
 
-# Who Should Take A Look At DPS?
-- `DPS` is one of many styles you can apply to teams that are building one or many applications.
-- `DPS` is designed for agile Teams, that are building in house projects with a duration of more than 4 months.
+# Goals Of DPS?
+- `DPS` is designed for agile teams, that are building in house projects with a duration of more than 4 months.
 - `DPS` focus on building a lightweight project with the possibility to delete as much complexity as possible.
 - `DPS` suits well, if the core domain is well known but the project requirements change frequently.
 - `DPS` ensures that rewrites of core functionality can be made within sprints.
-- `DPS` highly tries to prevent Big Ball of muds, even with short sprints and indecisive product owners.
-- `DPS` scales well in terms of, what kind of tasks should be parallelized and when the team should come together and design interfaces for new services.
+- `DPS` highly tries to prevent big ball of muds, even with short sprints and indecisive product owners.
+- `DPS` scales well in terms of, what kind of tasks should be parallelized and when the team should come together.
 - `DPS` ensures fast and efficient code reviews.
 
 # Basic Structure
-`DPS` encores 3 different kinds of Packages.
+`DPS` encores 3 different kinds of `Packages`.
 
 
     | Package Type          | Responsibility                               |
@@ -33,20 +32,20 @@ The examples are written using Symfony, but `DPS` is framework agnostic.
     |                       | Packages can refer. Defines the Public API   |
     |                       | Of all Data Structures and Services          |
     | --------------------- |--------------------------------------------  |
-    | Project Package       | Implementations of Private and               |
-    |                       |  Public Services. Public Services must       |
-    |                       |  implement and return an Interface provided  |
-    |                       |  by the Domain Package                       |
+    | Package               | Implementations of Private and               |
+    |                       | Public Services. Public Services must        |
+    |                       | implement and return an Interface provided   |
+    |                       | by the Domain Package                        |
     | --------------------- | -------------------------------------------- |
 
 
 # Project Package
 DPS enforces one or many `Project Packages`.
-The Project Package obtains all of your endpoints (Routing Informations, Controllers, Webservices, Templates, ...).
+The Project Package obtains all code for all endpoints (Routing Informations, Controllers, Webservices, Templates, ...).
 In a typical Symfony Application this could be the `AppBundle`.
 Most projects will start with one `Project Package`.
 
-The Project Package is allowed to contain:
+The `Project Package` is allowed to contain:
 
 ### Framework Specific Functionality
 It's totally fine to couple the framework with the Project Package.
@@ -54,7 +53,8 @@ One of the goals of `DPS` is to avoid coupling whenever it makes sense.
 
 ### API Endpoints and Controller
 Every endpoint of the Application is provided by the `Project Package`.
-The related controllers must only use classes / resources from it's own package namespace or the domain namespace.
+The related controllers must only use classes / resources from it's own `Project Package` namespace or the `Domain Package` namespace.
+The `Project Package` is not allowed to use any class provided by a regular `Package`.
 
 Example
 
@@ -93,33 +93,32 @@ Example
     }
 ```
 
-(1*) A Typically Controller using `DPS` just use interfaces that are provided by the
-`Domain Package`.
+(1*) it's a good practice if controllers are just using `interfaces that
+provided by the `Domain Package` and framework related code.
 
-(2*) The `Project Bundle` can provide public services, it's also fine if
-the `Project Bundle` use it's own services if the service is highly
-project specific.
+(2*) The `Project Bundle` can provide `public services`, it's also fine if
+the `Project Bundle` makes use of it's own services.
+This seems to be a good idea if the service is highly project specific.
 
 ### Templates
 Every template is provided by the Project Package.
-For Example, HTML Templates and also the structure any kind of Format provided by an API.
 
-# Wire Public Services and provide a Domain Specific Service Name.
-Packages are providing services with knowledge of the technical implementation
+# Wire Public Services And Provide a Domain Specific Service Name.
+`Packages` are providing services with knowledge of the technical implementation
 and the use case they are used for.
 
-For Example these are Valid Package Names:
+For Example these are valid `Package` names:
 
 - ProductMysqlBundle
 - ProductDoctrineBundle
 
+Consider the domain of the project is a classic shop.
+In this case the `Project Package` is responsible for providing a `product_service`.
 
-For example the MysqlProductService would register a service called:
-`[project].product_mysql_bundle.product_service`
-
-The `Project Package` is responsible for providing a `product_service`, for this
-responsible it `can` use `Public Services` provided by other packages.
-In case of an Symfony Application, this would totally fine:
+Instead of implementing some kind of `product_service` the `Project Package` can
+`can` use `Public Services` provided by other `Packages`.
+In case of a symfony application, the `Project Package` can use the alias functionallity,
+to wire any service to the required `product_service`.
 
     <service id="product_service" alias="[project].product_mysql_bundle.product_service"/>
 
@@ -135,7 +134,7 @@ different `Packages`.
 ### Public / Private / Tagged Services
 It's totally fine if the `Project Package` defines `Public Services` and
 `Private Services`. This is useful if the logic behind the service is quite easy and
-specific to the project. For further reading, study the Public / Private Service Part of the packages,
+specific to the project. For further reading, study the Public / Private Service Part of the `Packages`,
 the restrictions are the same.
 
 ### Tips
@@ -164,76 +163,82 @@ The `Domain Package` must only contain:
 Interfaces that are designed for stateless, framework-agnostic services.
 
 ### Domain DTO Interfaces
-Every data structure that is used to share data between packages must be provided by
-as in interface in the `Domain Package`.
+Every data structure that is used to share data between `Packages` must be provided by
+as in interface by the `Domain Package`.
 For example, if the core domain is a shop, the `Domain Package` provides an interface for a product,
 if the product contains variants, or other subclasses, they must be provided as interfaces, too.
 
 ### Domain DTO Abstract Classes
-Abstract Classes with boilerplate data structures. Use abstract classes wisely and rare, prefere interfaces over
-Abstract Classes whenever possible.
+Abstract classes with boilerplate data structures. Use abstract classes wisely and rare, prefere interfaces over
+abstract classes whenever possible.
 
 ### Tags
 The `Domain Package` can define some `Service Tags` Tags can be used by the `Project Package` and by
-any other `Package` to wire things together.
+any other `Packages` to wire services together.
 
 ### Tips
-Focus on your Domain Services, think about the best interface for your domain.
-Every team member should know (at least) most of your Domain Interfaces, so design them with care.
-It's a good idea to work on the `Domain Package` with other team members and discussing it.
-Your domain should be defined wisely, with care and should be correct (now and in years).
+Every team member should know (at least) most of the domain interfaces.
+Interfaces in the `Domain Package` should be defined wisely and with care.
 Focus on facts of your domain, not on technical decisions.
 Design the interface as small as possible. Design nothing you don't need.
-By reading the service definition a new Team Member knows every important service, this ensures
+By reading the service definition a new team member knows every important service, this ensures
 that new team members don't get overstrained.
 
 
 # Packages
-Different functionality should live in different Packages.
+Different functionality should live in different `Packages`.
 
-Every package must only use classes / resources from it's own Package Namespace or the Domain Namespace.
-A Package `should not` contain Interfaces or any abstractions. The Package is responsible for providing one, efficient solution.
-`DPS` prefers rewriting the `Package` over building a Big Ball of Mud.
+Every `Package` must only use classes / resources from it's own `Package` namespace or the `Domain Package` namespace.
+`Packages` `should not` contain interfaces or any abstractions.
+`Package` are responsible for providing one, efficient solution.
+`DPS` prefers rewriting `Packagey` over building a big ball of mud.
+
+`Packages`are designed to be small, efficient, easy to understand and maintainable by a small team.
 
 Packages must only contain:
 
+### Private Services
+Every `Package` is allowed to contain services / classes that are used internally to structure the `Package`.
+A `Private Service` must not be used outside of the `Package` namespace.
+By default every service is a `Private Service`.
+
 ### Public Services
-Every `Public Service` `must` implement an Interface from the Domain Package.
-A `Public Service` `must` return native PHP Types (DateTime, Array, String, Int, ...) or objects that implement
+A `Private Service` becomes a `Public Service` if it implements an interface from the `Domain Package.
+A `Public Service` `must` return native PHP Types (DateTime, Array, String, Int, ...) or instances that implement
 an interface in the `Domain Package`.
 
+`Public Services` can be wired by the `Project Package`, so the `Project Package` and any other `Package` can
+make use of any `Public Service` by using the interface the `Public Service` implements from the
+`Domain Package`.
+
 ### Public Tagged Services
-Services can be wired together using Tags. Global Tags are provided by the `Domain Package` by definition.
+Services can be wired together using tags. Global tags are provided by the `Domain Package` by definition.
 Every `Public Tagged Service` `must` implement a tag related interface, provided by the `Domain Package`.
 
-### Private Services
-Every package is allowed to contain services / classes that are used internally to structure the package.
-An `Private Service` `must not` implement an interface from the `Domain Package`.
-An `Private Service` is allowed to use and return classes provided by the `Domain Package` and be the package itself.
 
 ### Instance Handling
-Every package has to provide solution to access the `Public Services`.
-For example in a typical Symfony Application, a `Package` could be represented as a Symfony bundle.
+Every `Package` has to provide a solution to access the `Public Services`.
+For example in a typical Symfony Application, a `Package` could be represented as a Bundle.
 
 ### Tips
-Packages do the hard work, don't overengineer them. No more abstractions, keep performance in mind and do the job.
-This doesnt mean that every package should be a mess, it means, packages can be rewritten if a requirement is changing.
-Packages should focus on one requirement, this ensures that a package is easy enough to be rewritten.
+`Packages` do the hard work, don't overengineer them. No more abstractions, keep performance in mind and do the job.
+This doesn't mean that every `Package` should be a mess, it means, `Packages` can be rewritten.
+`Packages` should focus on one requirement, this ensures that a `Package` is easy enough to be rewritten.
 
 # Deleteability
 `DPS` enforce to write deleteable code. Small interfaces are representing all of
 the functionality that has to be shared between `Packages` and the `Project Package`.
-Packages `must` be able to rewrite within 2 Weeks by one developer.
+Packages `must` be able to rewrite within 2 weeks by one developer.
 `DPS` ensures that parts of the application can be rewritten.
-Especially in agile teams this ensures, that core can be rewritten.
+In agile teams this ensures, that one `Package` can be rewritten within one sprint.
 
 # Faq
-### Where should repositories live in a `DPS` structure?
+### Where Should Repositories Live In A `DPS` Structure?
 `DPS` don't focus on the differences between repositories and services.
 For example if you use doctrine, the repository is part of the implementation detail
-of a doctrine specific package. The Project Package never deals with any kind of repository.
-In case of managing products, the package `may` has an doctrine repository.
-It's up the the developer of the package, if the repository implements some kind of product service
+of a doctrine specific package. The `Project Package` never deals with any kind of repository.
+In case of managing products, the `Package` `may` make use of an doctrine repository.
+It's up the the developer of the `Package`, if the repository implements some kind of product service
 interface provided by the `Domain Package` or if the `Package` uses one or many repositories under the hood.
 
 ```php
@@ -297,10 +302,9 @@ Other `Packages` must not use the repository, just the ProductServiceInterface.
 
 (2*) It's totally fine to declare typically repository functions provided by EntityRepository
 in the ProductServiceInterface as long as they take some kind of structured data / object or
-scalar types as Input. For example it's a bad practice to share a generic findBy(array $args).
+scalar types as input. For example it's a bad practice to share a generic findBy(array $args).
 Such methods should be replaced by special methods. This makes refactoring much easier and
-your Public API stays as small, as possible (even with more methods).
-Using findBy(array $args) as implementation detail of the package, is totally fine.
+your public API stays as small, as possible (even with more methods).
 
 Even if the second example isn't that smart, it don't violate `DPS`.
 Everything is hidden between the ProductInterface and can be rewritten without changing
@@ -310,8 +314,8 @@ any `Project Package` or any other `Package`.
 Entities and Data Transfer Objects (Dto's) lives in the related `Package`.
 Consider there are two different implementations of a product `Package`.
 
-one implementations takes care of loading products from a MySQL Database.
-Now the Team wants to change the way how products are stored, the idea is to
+One implementations takes care of loading products from a MySQL database.
+Now the team wants to change the way how products are stored, the idea is to
 challenge PostgreSQL against MongoDB as product storage.
 
 The team starts developing 2 new `Packages`.
@@ -338,8 +342,8 @@ The structure now looks:
 Now the team can play around with all these solutions and pick the best one.
 `Packages` should be as smart as possible, developing such a `Package` should
 never takes more than one sprint (max. 14 days) for one developer.
-A typical Scrum Team with 5 backend developers theoretically should be able to build
-5 different implementations of one package peer sprint.
+A typical scrum team with 5 backend developers theoretically should be able to build
+5 different implementations of the same `Package` peer sprint.
 
 All these Dto's must implement the ProductInterface provided by the `Domain Package`.
 Deleteing / Replacing `Packages` `must` be easy.
@@ -350,20 +354,20 @@ well, it seems to be a good idea, to model the `Project Package` as an AppBundle
 `Packages` as Bundles and the `Domain Package` as Library.
 
 #### Why Is A Package Not A Library?
-`Packages` have to expose some kind of Service Konfigurations.
+`Packages` have to expose some kind of service configurations.
 Libraries can't integrate services without becoming a Bundle.
-`DPS` makes it easy to refactor `Packages` to Libraries, if your requirements are changing.
+`DPS` makes it easy to refactor `Packages` to libraries, if (and only if) your requirements are changing.
 
 ### In PHP, Should Every Package Live In A Composer Package?
 In theory this works great, in practice, it's much easier to develop the `Packages` and the
 `Domain Package` next to your main `Project Package`.
 If and only if the Project has more than one `Project Packages` it's a good practice to use a
-subtree splitter, to provide `Packages`.
+subtree splitter, to provide `Packages` and the `Domain Package` as composer package.
 
 ### How To Model Deep Bidirectional Object Structures, Like Huge ORM Object Graphs?
-`DPS` enforce multiple small `Packages`. Huge Object Graphs violates the Idea of `DPS`.
-Most time it makes sense to define one `Package` for one Aggregate Root (DDD).
-An Aggregate Root `must not` contain other Aggregate Roots.
+`DPS` enforce multiple small `Packages`. Huge object graphs violates the idea of `DPS`.
+Most time it makes sense to define one `Package` for one aggregate root (DDD).
+An aggregate root `must not` contain other aggregate roots.
 
 #### How To Model References Between Object Structures?
 References `must` be modeled using an identifier. An identifier `could` be any scalar value or
@@ -407,13 +411,13 @@ OR
 ```
 
 ### Why Enforce `DPS` Small and Deleteable `Packages`?
-`DPS` is all about writing as simple and clean software as possible.
+`DPS` is about writing as simple and as clean code as possible.
 To enrich this `DPS` ensures that with changed requirements or new
 technical solutions `Packages` `can` be rewritten.
 
 `DPS` is written with Facebooks `The Hacker Way` in mind.
 "Be Open" for other implementations.
-Every `Package` "can be replaced by a better one".
+Every `Package` "can be replaced by "a better one".
 Make sure, that everyone can play / hack on new and hopefully better implementations.
 "Focus On The Impact" of every `Package`, "Move Fast" and "Don't Be Afraid" by changing,
 deleting code.
@@ -425,29 +429,29 @@ The `Domain Packages` Interfaces are responsible to make sure, that everything
 is replaceable by a better implementation.
 
 `Packages` must not contain `Abstractions`, `Packages` `must` implement
-Decisions. Decisions the `Project Package` and the `Domain Package` `must not`
+decisions. Decisions the `Project Package` and the `Domain Package` `must not`
 take.
 
 ###  Why `DPS` Makes Developers Happy?
 `DPS` focus on a clean and easy structure, that is really hack and replaceable.
-As Developer you can change and rewrite parts of the application fast, change
+As developer you can change and rewrite parts of the application fast, change
 parts of the technology stack and it's hard to encounter situations, where
 the design of the software slows you down.
 
 As developer you're able to play with the best implementation for a Package.
 
 ### Why `DPS` Makes Product Owner Happy?
-Packages are highly specific to a problem. Most time this means, the Application
+Packages are highly specific to a problem. Most time this means, the application
 performs very well. During a longer project the complexity stays low, this
 ensures that the development team isn't slowed down. `DPS` focus on a
-clean structure, this ensures that it's very hard to end up with a Big Ball of Mud.
+clean structure, this ensures that it's very hard to end up with a big ball of mud.
 
 ### Why `DPS` Makes Your Company Happy?
 `DPS` Focus on small, but nearly perfect `Packages`. This means the development
-Team isn't building one huge software, it's building many awesome `Packages`.
+team isn't building one huge software.
 For new team members it's very easy to learn enough about the project,
 to work on it. This ensures that new team members can join and unjoin the team efficiently.
 
 Projects written using `DPS` `should` never need be rewritten.
-`DPS` preferes rewriting a Package whenever there is a better solution,
+`DPS` preferes rewriting a `Package` whenever there is a better solution,
 over huge and risky rewrites of the complete software.
