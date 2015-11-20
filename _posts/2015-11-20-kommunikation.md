@@ -26,13 +26,14 @@ In diesem Sinne würde ich die Frage gerne wie folgt umformulieren "wie kommuniz
 Wir machen alle Fehler. Alle. Immer.
 Und wenn wir es jetzt noch nicht wissen, dann nur, weil wir nicht gut genug aufgepasst haben.
 
-Fehler sind nicht schlimm. Wenn man im Team weniger Fehler macht, dann ist das was gutes.
+Fehler sind schlimm. Lassen sich aber nicht verhindern. Wenn man im Team weniger Fehler macht, dann ist das was gutes.
 Jeder Fehler der im Team gefunden wird, dient dem Team.
 Ein professioneller Entwickler, tut immer alles dafür, dem Team es möglichst einfach zu machen, Fehler zu finden.
 Auch die eigenen. Auch wenn es schwer fällt.
 Ein professioneller Entwickler greift nie einen anderen Entwickler direkt an,
-tut jedoch alles dafür die eigenen
+versucht immer ehrlich und offen fachliches Feedback zu geben, um das Team als ganzes zu stärken.
 
+Kritik auf persönlicher Ebene sollte immer vermieden werden.
 
 ### Being a team player means playing your position as well as you possibly can,
 ### and helping out your teammates when they get into a jam.
