@@ -10,6 +10,12 @@ This blogpost describes one architectural style I like to use in medium / larger
 To make it easier to reference this style, i'll start calling it `DPS` (`Deleteable Package Structure`).
 The examples are written using Symfony, but `DPS` is framework agnostic.
 
+# DPS vs. Hexagonal Architecture.
+I would describe DPS as an anemic SOA approach to Hexagonal Architecture.
+From my point of view Hexagonal Architecture is more about DDD.
+DPS focus more on building different implementations and getting rid of old code.
+DDD focus on building a solid domain, DPS focus on building a delete / replaceable layer for infrastructure intensive projects with huge change rates AND solid constraints for your domain.
+DPS is much more service oriented.
 
 # Goals Of DPS?
 - `DPS` is designed for agile teams, that are building in house projects with a duration of more than 4 months.
@@ -26,15 +32,15 @@ The examples are written using Symfony, but `DPS` is framework agnostic.
 
     | Package Type          | Responsibility                               |
     | --------------------- |--------------------------------------------  |
-    | Project Package       | Project specific Files / Sourcecode.         |
+    | Project Package       | Project specific files / sourcecode.         |
     | --------------------- |--------------------------------------------  |
     | Domain Package        | Interfaces and Abstract Classes all          |
-    |                       | Packages can refer. Defines the Public API   |
-    |                       | Of all Data Structures and Services          |
+    |                       | Packages can refer. Defines the public API   |
+    |                       | of all data structures and services          |
     | --------------------- |--------------------------------------------  |
     | Package               | Implementations of Private and               |
     |                       | Public Services. Public Services must        |
-    |                       | implement and return an Interface provided   |
+    |                       | implement and return an interface provided   |
     |                       | by the Domain Package                        |
     | --------------------- | -------------------------------------------- |
 
@@ -96,7 +102,7 @@ Example
 (1*) it's a good practice if controllers are just using `interfaces that
 provided by the `Domain Package` and framework related code.
 
-(2*) The `Project Bundle` can provide `public services`, it's also fine if
+(2*) The `Project Bundle` can provide `Public Services`, it's also fine if
 the `Project Bundle` makes use of it's own services.
 This seems to be a good idea if the service is highly project specific.
 
@@ -115,8 +121,8 @@ For Example these are valid `Package` names:
 Consider the domain of the project is a classic shop.
 In this case the `Project Package` is responsible for providing a `product_service`.
 
-Instead of implementing some kind of `product_service` the `Project Package` can
-`can` use `Public Services` provided by other `Packages`.
+Instead of implementing some kind of `product_service` the `Project Package` can 
+use `Public Services` provided by other `Packages`.
 In case of a symfony application, the `Project Package` can use the alias functionallity,
 to wire any service to the required `product_service`.
 
@@ -155,7 +161,7 @@ as simple as possible is a good idea.
         |-- ProductServiceInterface.php
         `-- CategoryServiceInterface.php
 
-The `Domain Package` is `must` be framework-agnostic.
+The `Domain Package` must be framework-agnostic.
 
 The `Domain Package` must only contain:
 
@@ -173,8 +179,8 @@ Abstract classes with boilerplate data structures. Use abstract classes wisely a
 abstract classes whenever possible.
 
 ### Tags
-The `Domain Package` can define some `Service Tags` Tags can be used by the `Project Package` and by
-any other `Packages` to wire services together.
+The `Domain Package` can define some `Service Tags`. Tags can be used by the `Project Package` or
+any other `Package` to wire services together.
 
 ### Tips
 Every team member should know (at least) most of the domain interfaces.
@@ -189,9 +195,9 @@ that new team members don't get overstrained.
 Different functionality should live in different `Packages`.
 
 Every `Package` must only use classes / resources from it's own `Package` namespace or the `Domain Package` namespace.
-`Packages` `should not` contain interfaces or any abstractions.
+`Packages` should not contain interfaces or any abstractions.
 `Package` are responsible for providing one, efficient solution.
-`DPS` prefers rewriting `Packagey` over building a big ball of mud.
+`DPS` prefers rewriting `Packages` over building a big ball of mud.
 
 `Packages`are designed to be small, efficient, easy to understand and maintainable by a small team.
 
@@ -203,17 +209,17 @@ A `Private Service` must not be used outside of the `Package` namespace.
 By default every service is a `Private Service`.
 
 ### Public Services
-A `Private Service` becomes a `Public Service` if it implements an interface from the `Domain Package.
-A `Public Service` `must` return native PHP Types (DateTime, Array, String, Int, ...) or instances that implement
+A `Private Service` becomes a `Public Service` if it implements an interface provided by the `Domain Package`.
+A `Public Service` must return native PHP Types (DateTime, Array, String, Int, ...) or instances that implement
 an interface in the `Domain Package`.
 
-`Public Services` can be wired by the `Project Package`, so the `Project Package` and any other `Package` can
-make use of any `Public Service` by using the interface the `Public Service` implements from the
+`Public Services` can be wired together by the `Project Package`.
+The `Project Package` and any other `Package` can make use of any `Public Service` by using the interface the `Public Service` implements from the
 `Domain Package`.
 
 ### Public Tagged Services
 Services can be wired together using tags. Global tags are provided by the `Domain Package` by definition.
-Every `Public Tagged Service` `must` implement a tag related interface, provided by the `Domain Package`.
+Every `Public Tagged Service` must implement a tag related interface, provided by the `Domain Package`.
 
 
 ### Instance Handling
