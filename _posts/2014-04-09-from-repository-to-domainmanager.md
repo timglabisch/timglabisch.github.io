@@ -28,10 +28,91 @@ the problem with this is that a product is responsible for storing product infor
 holding data and knowing about how to persist it is too much for a single class :)
 
 the active record pattern has some more problems.
-normal times you try to build your application using different layers.
+normal times you should try to build your application using different layers.
 for example one service layer for application services, one layer for domain services and one layer for infrastructure services.
 the problem with the product class is that it knows about the infrastructure and your domain.
 so it's not just about doing to much, it's also about breaking software layers at the heart of any application.
+
+the next big problem is that refactoring becomes nearly impossible.
+
+```php
+    <?php
+    Product::findById(6);
+    $product->setName('bar');
+    $product->save();
+```
+
+the problem is that the method `findById` is part of your Model.
+for example if you want to use some kind of caching, you need to overwrite the save method
+of the model.
+
+```php
+    <?php
+    class Product {
+        /// ...
+        public function save() {
+
+            $cacheEntry = Cache::resolve('product' . $this->getId());
+
+            if (!$cacheEntry->isHit()) {
+                $cacheEntry->store($this);
+            }
+
+            return $cacheEntry->get();
+        }
+    }
+
+```
+
+at this level the code looks easy, but lets add a few more months of development and a bunch of small requirements.
+for example you want to submit an event, if a product is changed.
+
+```php
+    <?php
+    class Product {
+        /// ...
+        public function save() {
+
+            EventDispatcher::submit('product_changed', $product);
+
+            $cacheEntry = Cache::resolve('product' . $this->getId());
+
+            //....
+        }
+    }
+
+```
+
+looks easy? The save method will grow and grow. Consider we want to add some logging:
+
+```php
+    <?php
+    class Product {
+        /// ...
+        public function save() {
+
+            Logger::info("product was changed", $product);
+
+            EventDispatcher::submit('product_changed', $product);
+
+            $cacheEntry = Cache::resolve('product' . $this->getId());
+
+            //....
+        }
+    }
+
+```
+
+Now the model knows about persistence, the ORM, logging, dispatching events and caching...
+
+So what if you want to refactor the code to use the LoggerInterface / EventDispatcher from the PSR standard?
+Because you highly rely on singletons this is not really possible.
+there are millions of blogposts explaining why singletons are pain.
+
+the only thing you could do is to build something like a [Facade](https://laravel.com/docs/5.3/facades) or
+Inject Logger/Dispatcher as an Argument to the save method.
+
+At first the code looks easy, but in longterm it's really dangerous.
 
 
 ## table gateway
@@ -52,6 +133,8 @@ the important thing is that it doesn't care about your domain, it's just a servi
 to provide access to the database.
 there is nothing wrong with a table gateway, for exampe a repository could use an table gateway for low level access to the database.
 
+just make sure you just use the table gateway in your infrastructure layer.
+
 ## respository pattern
 thanks to tools like doctrine the php community stared to use the repository pattern.
 
@@ -64,7 +147,7 @@ example:
     $productRepository->save($product);
 ```
 
-this approach is quite good. make sure that you save your product instance using the productRepository and not a entityManager.
+this approach is quite good. make sure that you save your product instance using the productRepository and not the entityManager.
 in the wild i often see code that is using the entityManager directly.
 the entityManager could be an implementation detail of the productRepository but nothing more.
 
@@ -85,9 +168,6 @@ in the wild you'll find application that are just dealing with raw data.
 just make sure that your application's domain is editing raw data - than the repository pattern and the
 anemic (anti-)pattern suits well for your application.
 
-### patterns for quering repositories
-later on i will write a dedicated blogpost about how to query data from a repository.
-if you're interesting in great solutions looke at the criteria or specification pattern.
 
 ## bit more domain driven design
 most of us try to build great software. writing great software is just about 2 things.
@@ -139,7 +219,7 @@ domain specific functions as an facade for your repositories. these managers cou
 event sourcing is more about how to persist your entities.
 instead of just persisting the state of an entity using event sourcing you store every event that changes the entity.
 to restore a state of an entity you can compute all state changes against the entity.
-providing a logbook about all changes will allows you to reinterprete data later on.
+providing a log about all changes will allows you to reinterprete data later on.
 performance can be accomplish using patterns like CQRS or taking snapshots.
 an Eventstore is an append only datastore.
 think kind of datastores can be infinitely cached.
@@ -211,5 +291,33 @@ commands are imperative and can be send within bounded context. events are in th
 
 ## CQRS
 CQRS is an advanced pattern for segregating models to read and write models.
-i suggest ready this docs to understand the basics of CQRS http://msdn.microsoft.com/en-us/library/jj591577.aspx .
+i suggest ready this docs to understand the basics of [CQRS](http://msdn.microsoft.com/en-us/library/jj591577.aspx) .
 there is too much to say about CQRS in this small overview.
+
+## Conclusion
+normal times i recommend creating a small interface for data-persistence.
+
+```php
+    <?php
+
+    interface ProductServiceInterface {
+
+        public function save(Product $product);
+
+        public function delete(Product $product);
+
+        // ...
+    }
+
+```
+
+you'll end up with a small contract and its possible to replace the implementation later.
+
+"In short, good architecture is less about the decisions you make and more about the decisions you defer making." - Martin Fowler
+
+for example you could just use a doctrine repository, but if you want you could internally use patterns like
+table gateway, active record or eventsourcing.
+
+if you end up with a lot a lot of data it's also easy to replace implementation to use databases like cassandra or search engines like elasticsearch.
+
+this just works if you adopt the concept of [Aggregate Roots](https://martinfowler.com/bliki/DDD_Aggregate.html).
