@@ -151,7 +151,7 @@ this approach is quite good. make sure that you save your product instance using
 in the wild i often see code that is using the entityManager directly.
 the entityManager could be an implementation detail of the productRepository but nothing more.
 
-the goal of the reporitoy pattern is that the object is decoupled from any storage engine.
+the goal of the repository pattern is that the object is decoupled from any storage engine.
 for example it's possible to implement different repositories for the same product or using patterns like dependency
 injection to replace a repository. make sure that you have an easy interface for your repository and just provide functions
 you really need. for example inherit from doctrines base repository makes it hard to replace it because you have to implement
