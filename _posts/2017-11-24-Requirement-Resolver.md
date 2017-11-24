@@ -5,8 +5,6 @@ tags: [ php architektur ]
 title: "Requirement Resolver"
 ---
 
-# Requirement Resolver Pattern
-
 i worked on something i call Requirement Resolver Pattern.
 
 consider you've a simple productlist. you may want to load product names from tableA,
