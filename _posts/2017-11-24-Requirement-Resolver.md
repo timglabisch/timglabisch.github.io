@@ -297,7 +297,7 @@ BananaRequirementResolver implements RequirementResolverInterface
     {
         /** @var $appleFarmer ResolvedFarmer */
         if (!$this->bananaFarmer) {
-            $this->bananaFarmer =  (yield FarmerRequirement::newBananaBananaRequirement())->getResolvedValue();
+            $this->bananaFarmer =  (yield FarmerRequirement::newBananaFarmerRequirement())->getResolvedValue();
         }
 
         foreach ($resolveables as $resolveable) {
@@ -327,7 +327,7 @@ and the Farmer Requirement Resolver
          public function __construct()
          {
              $this->appleFarmer = ResolvedFarmer::newAppleFarmer();
-             $this->bananaFarmer = ResolvedFarmer::newBananaBanana();
+             $this->bananaFarmer = ResolvedFarmer::newBananaFarmer();
          }
 
          public function supports(ResolveableInterface $requirement, ResolverContext $resolverContext)
