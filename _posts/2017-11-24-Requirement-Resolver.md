@@ -231,9 +231,8 @@ class JuiceRequirementResolver implements RequirementResolverInterface
             ];
         });
 
+        $i = 0;
         foreach ($resolveables as $resolveable) {
-
-            $mapEntry = $map[spl_object_hash($resolveable)];
 
             $resolveable->resolve(new ResolvedJuice(
                 $apples[$i]->getResolvedValue(),
