@@ -148,7 +148,7 @@ and a resolver for each type:
 
 when we than want to resolve such a product Requirement:
 
-```
+```php
 
 $this->requirementResolver->resolveAll([
     $product = ProductRequirement::WithID(1)
@@ -169,7 +169,7 @@ the `ProductRequirementResolver` would now finish to resolve the `ProductRequire
  
 now consider we would have 
 
-```
+```php
 
 $this->requirementResolver->resolveAll([
     $product1 = ProductRequirement::WithID(1)
@@ -208,7 +208,7 @@ $resolver->resolveAll([
 
 so lets first take a look at the `JuiceRequirementResolver`
 
-```
+```php
 class JuiceRequirementResolver implements RequirementResolverInterface
 {
     public function supports(ResolveableInterface $requirement, ResolverContext $resolverContext)
@@ -259,8 +259,8 @@ even multiple calls to the resolveAll method to one resolver are possible. this 
 
 it's a bit hard to understand, but consider:
 
-```
-/**
+```php
+    /**
      * @param ResolveableCollection|JuiceRequirement[] $resolveables
      * @param ResolverContext $resolverContext
      */
@@ -278,7 +278,7 @@ But lets get back to our example, to make juice, we need an apple and a banana.
 Both Requirement Resolvers are looking more or less the same, they just require a Farmer.
 
 
-```
+```php
 
 BananaRequirementResolver implements RequirementResolverInterface
 {
@@ -367,7 +367,7 @@ the resolver is more or less a scheduler that is spawning generators that are ge
 implementing async. resolvers is quite easy. 
 at the moment we dont use it, but you could simple do something like this:
 
-```
+```php
 public function resolveAll(ResolveableCollection $resolveables, ResolverContext $resolverContext)
  {
     while ($iAmNotReadyJet) {
