@@ -136,5 +136,3 @@ i could talk about it for days, i just want to give you a superficial impression
 
 please don't start removing your DI container now. Especially in the PHP world, this one is to be preferred in the sense that it is used much more and is probably enough. 
  But it's good to keep this in mind, especially if you work with languages where you can think more about memory management.
-
-Translated with www.DeepL.com/Translator (free version)
